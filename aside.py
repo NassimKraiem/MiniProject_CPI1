@@ -15,7 +15,6 @@ def flipState(windows, w, state = None):
     if(state==True):
         top_aside = list(filter(lambda widget: isinstance(widget, QPushButton) and widget.property('current') != None, windows.top_aside.children()))
         index = top_aside.index(w)
-        print(index)
         windows.tabWidget.setCurrentIndex(index)
 
 def connectBtns(windows):
