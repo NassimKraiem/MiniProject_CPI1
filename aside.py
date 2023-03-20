@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QPushButton
 
 resets = []
 
-
 def resetNavigation():
     for reset in resets:
         reset(False)
@@ -14,7 +13,8 @@ def flipState(windows, w, state = None):
     w.style().unpolish(w)
     w.style().polish(w)
     if(state==True):
-        index = ((windows.top_aside.children().index(w)-1) // 2)
+        top_aside = list(filter(lambda widget: isinstance(widget, QPushButton) and widget.property('current') != None, windows.top_aside.children()))
+        index = top_aside.index(w)
         print(index)
         windows.tabWidget.setCurrentIndex(index)
 
