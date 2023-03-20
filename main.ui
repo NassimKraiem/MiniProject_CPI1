@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>596</width>
+    <height>357</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton#delBtn{
+	background-color: red;
+	color: white;
+}
+QPushButton#addBtn{
+	background-color: green;
+	color: white;
+}
+
+#body{
+	background-color: white;
+}
+
+#side_nav{
+	background-color: #f1f0f2;
+}
+#side_nav &gt; #top_aside &gt; QPushButton{
+	color: #808081;
+	text-align: left;
+}
+#side_nav &gt; #top_aside &gt; QPushButton:pressed {
+	/*background-color: transparent;*/
+	border: none;
+}
+#side_nav &gt; #top_aside &gt; QPushButton[current=true]{
+	color: #2c4585;
+}
+
+#Explore_title{
+	font-weight: 600;
+	font-size: 20px;
+}
+
+#scrollArea{
+	background-color: transparent;
+	border-style: solid;
+	border-width: 1px 0px;
+	border-color: #e1e1e1;
+}
+#popularBooks{
+	background-color: transparent;
+}
+#popularBooks &gt; QPushButton{
+	background-color: green;
+	/*border-image: url(:/testPrefix/arrow.jpg) 0 0 0 0 stretch stretch;*/
+}</string>
+  </property>
+  <widget class="QWidget" name="tabs">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="body" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="side_nav" native="true">
+         <layout class="QVBoxLayout" name="layout">
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+          <property name="topMargin">
+           <number>20</number>
+          </property>
+          <property name="rightMargin">
+           <number>20</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="top_aside" native="true">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="topMargin">
+              <number>1</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="exploreBtn">
+               <property name="maximumSize">
+                <size>
+                 <width>170</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="text">
+                <string>Explore</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>arrow.jpg</normaloff>arrow.jpg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+               <property name="current" stdset="0">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="sep1">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>1</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="categoriesBtn">
+               <property name="maximumSize">
+                <size>
+                 <width>170</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="text">
+                <string>Categories</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>arrow.jpg</normaloff>arrow.jpg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+               <property name="current" stdset="0">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="sep2">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>1</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="savedBtn">
+               <property name="maximumSize">
+                <size>
+                 <width>170</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="text">
+                <string>Saved</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>arrow.jpg</normaloff>arrow.jpg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+               <property name="current" stdset="0">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>210</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="main_content">
+         <property name="topMargin">
+          <number>13</number>
+         </property>
+         <property name="rightMargin">
+          <number>5</number>
+         </property>
+         <item>
+          <widget class="QWidget" name="horizontalWidget_2" native="true">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="leftMargin">
+             <number>10</number>
+            </property>
+            <property name="rightMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="Explore_title">
+              <property name="text">
+               <string>Explore</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>230</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QScrollArea" name="scrollArea">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>135</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>135</height>
+            </size>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="popularBooks">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>493</width>
+              <height>119</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="bottomMargin">
+              <number>9</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_2">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>90</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_7">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>90</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_6">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>90</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>90</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>90</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>596</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="title">
+     <string>&amp;ETUDIANTS</string>
+    </property>
+    <widget class="QMenu" name="menu_Recherche_affichage">
+     <property name="title">
+      <string>&amp;Recherche, affichage</string>
+     </property>
+     <addaction name="action_Contenu_du_dictionnaire_tudiants"/>
+     <addaction name="action_Recherche_par_num_ro_inscription"/>
+     <addaction name="action_oo"/>
+     <addaction name="action_Recherche_par_section_et_niveau"/>
+     <addaction name="action_Recherche_par_niveau"/>
+    </widget>
+    <widget class="QMenu" name="menu_Mise_jour_tudiants">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="title">
+      <string>&amp;Mise à jour étudiants</string>
+     </property>
+     <widget class="QMenu" name="menu_Supprimer_tudiant">
+      <property name="title">
+       <string>&amp;Supprimer étudiant</string>
+      </property>
+      <addaction name="action_Suppression_tudiant_donn"/>
+      <addaction name="action_Suppression_des_tudiants_d_une_section_donn_e"/>
+      <addaction name="action_Suppression_des_tudiants_d_un_niveau_donn_e"/>
+      <addaction name="actionSuppression_des_tudiants_d_une_section_et_un_niveau"/>
+     </widget>
+     <widget class="QMenu" name="menu_Modifier_tudiant">
+      <property name="title">
+       <string>&amp;Modifier étudiant</string>
+      </property>
+      <addaction name="action_T_l_phone"/>
+      <addaction name="action_Mail"/>
+      <addaction name="action_Adresse"/>
+     </widget>
+     <addaction name="action_Ajouter_tudiant_2"/>
+     <addaction name="menu_Supprimer_tudiant"/>
+     <addaction name="menu_Modifier_tudiant"/>
+    </widget>
+    <addaction name="menu_Mise_jour_tudiants"/>
+    <addaction name="menu_Recherche_affichage"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <action name="action_Ajouter_tudiant">
+   <property name="text">
+    <string>&amp;A&amp;j&amp;o&amp;uter étudiant</string>
+   </property>
+  </action>
+  <action name="actionSupprimer_tudiant">
+   <property name="text">
+    <string>&amp;Supprimer étudiant</string>
+   </property>
+  </action>
+  <action name="actionModifier_tudiant">
+   <property name="text">
+    <string>&amp;Modifier étudiant</string>
+   </property>
+  </action>
+  <action name="action_Ajouter_tudiant_2">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Ajouter étudiant</string>
+   </property>
+  </action>
+  <action name="action_Suppression_tudiant_donn">
+   <property name="text">
+    <string>&amp;Suppression étudiant donné</string>
+   </property>
+  </action>
+  <action name="action_Suppression_des_tudiants_d_une_section_donn_e">
+   <property name="text">
+    <string>&amp;Suppression des étudiants d'une section donnée</string>
+   </property>
+  </action>
+  <action name="action_Suppression_des_tudiants_d_un_niveau_donn_e">
+   <property name="text">
+    <string>&amp;Suppression des étudiants d'un niveau donnée</string>
+   </property>
+  </action>
+  <action name="actionSuppression_des_tudiants_d_une_section_et_un_niveau">
+   <property name="text">
+    <string>&amp;Suppression des étudiants d'une section et un niveau</string>
+   </property>
+  </action>
+  <action name="action_T_l_phone">
+   <property name="text">
+    <string>&amp;Téléphone</string>
+   </property>
+  </action>
+  <action name="action_Mail">
+   <property name="text">
+    <string>&amp;Mail</string>
+   </property>
+  </action>
+  <action name="action_Adresse">
+   <property name="text">
+    <string>&amp;Adresse</string>
+   </property>
+  </action>
+  <action name="action_Contenu_du_dictionnaire_tudiants">
+   <property name="text">
+    <string>&amp;Contenu du dictionnaire étudiants</string>
+   </property>
+  </action>
+  <action name="action_Recherche_par_num_ro_inscription">
+   <property name="text">
+    <string>&amp;Recherche par numéro inscription</string>
+   </property>
+  </action>
+  <action name="action_oo">
+   <property name="text">
+    <string>&amp;Recherche par section</string>
+   </property>
+  </action>
+  <action name="action_Recherche_par_section_et_niveau">
+   <property name="text">
+    <string>&amp;Recherche par section et niveau</string>
+   </property>
+  </action>
+  <action name="action_Recherche_par_niveau">
+   <property name="text">
+    <string>&amp;Recherche par niveau</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="test.qrc"/>
+ </resources>
+ <connections/>
+</ui>

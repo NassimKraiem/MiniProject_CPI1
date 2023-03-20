@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>599</width>
+    <height>415</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#centralwidget{
+	background-color: white /*rgb(21, 17, 17)*/;
+}
+QPushButton#delBtn:!disabled{
+	background-color: red;
+	color: white;
+	/*border: none;
+	padding: 5px 25px;*/
+}
+QPushButton#addBtn:!disabled{
+	background-color: green;
+	color: white;
+	/*border: none;
+	padding: 5px 25px;*/
+}</string>
+  </property>
+  <widget class="QWidget" name="tabs">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="etudiants">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="searchBar"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="clearBtn">
+          <property name="text">
+           <string>clear</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="table">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="rowCount">
+         <number>0</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Nom</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Prenom</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Date Naiss.</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Adresse</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Mail</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Tel.</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Section</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Niveau</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="delBtn">
+          <property name="text">
+           <string>del</string>
+          </property>
+          <property name="col" stdset="0">
+           <string>red</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="addBtn">
+          <property name="text">
+           <string>add</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>599</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="title">
+     <string>&amp;ETUDIANTS</string>
+    </property>
+    <widget class="QMenu" name="menu_Recherche_affichage">
+     <property name="title">
+      <string>&amp;Recherche, affichage</string>
+     </property>
+     <addaction name="action_Contenu_du_dictionnaire_tudiants"/>
+     <addaction name="action_Recherche_par_num_ro_inscription"/>
+     <addaction name="action_oo"/>
+     <addaction name="action_Recherche_par_section_et_niveau"/>
+     <addaction name="action_Recherche_par_niveau"/>
+    </widget>
+    <widget class="QMenu" name="menu_Mise_jour_tudiants">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="title">
+      <string>&amp;Mise à jour étudiants</string>
+     </property>
+     <widget class="QMenu" name="menu_Supprimer_tudiant">
+      <property name="title">
+       <string>&amp;Supprimer étudiant</string>
+      </property>
+      <addaction name="action_Suppression_tudiant_donn"/>
+      <addaction name="action_Suppression_des_tudiants_d_une_section_donn_e"/>
+      <addaction name="action_Suppression_des_tudiants_d_un_niveau_donn_e"/>
+      <addaction name="actionSuppression_des_tudiants_d_une_section_et_un_niveau"/>
+     </widget>
+     <widget class="QMenu" name="menu_Modifier_tudiant">
+      <property name="title">
+       <string>&amp;Modifier étudiant</string>
+      </property>
+      <addaction name="action_T_l_phone"/>
+      <addaction name="action_Mail"/>
+      <addaction name="action_Adresse"/>
+     </widget>
+     <addaction name="action_Ajouter_tudiant_2"/>
+     <addaction name="menu_Supprimer_tudiant"/>
+     <addaction name="menu_Modifier_tudiant"/>
+    </widget>
+    <addaction name="menu_Mise_jour_tudiants"/>
+    <addaction name="menu_Recherche_affichage"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <action name="action_Ajouter_tudiant">
+   <property name="text">
+    <string>&amp;A&amp;j&amp;o&amp;uter étudiant</string>
+   </property>
+  </action>
+  <action name="actionSupprimer_tudiant">
+   <property name="text">
+    <string>&amp;Supprimer étudiant</string>
+   </property>
+  </action>
+  <action name="actionModifier_tudiant">
+   <property name="text">
+    <string>&amp;Modifier étudiant</string>
+   </property>
+  </action>
+  <action name="action_Ajouter_tudiant_2">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Ajouter étudiant</string>
+   </property>
+  </action>
+  <action name="action_Suppression_tudiant_donn">
+   <property name="text">
+    <string>&amp;Suppression étudiant donné</string>
+   </property>
+  </action>
+  <action name="action_Suppression_des_tudiants_d_une_section_donn_e">
+   <property name="text">
+    <string>&amp;Suppression des étudiants d'une section donnée</string>
+   </property>
+  </action>
+  <action name="action_Suppression_des_tudiants_d_un_niveau_donn_e">
+   <property name="text">
+    <string>&amp;Suppression des étudiants d'un niveau donnée</string>
+   </property>
+  </action>
+  <action name="actionSuppression_des_tudiants_d_une_section_et_un_niveau">
+   <property name="text">
+    <string>&amp;Suppression des étudiants d'une section et un niveau</string>
+   </property>
+  </action>
+  <action name="action_T_l_phone">
+   <property name="text">
+    <string>&amp;Téléphone</string>
+   </property>
+  </action>
+  <action name="action_Mail">
+   <property name="text">
+    <string>&amp;Mail</string>
+   </property>
+  </action>
+  <action name="action_Adresse">
+   <property name="text">
+    <string>&amp;Adresse</string>
+   </property>
+  </action>
+  <action name="action_Contenu_du_dictionnaire_tudiants">
+   <property name="text">
+    <string>&amp;Contenu du dictionnaire étudiants</string>
+   </property>
+  </action>
+  <action name="action_Recherche_par_num_ro_inscription">
+   <property name="text">
+    <string>&amp;Recherche par numéro inscription</string>
+   </property>
+  </action>
+  <action name="action_oo">
+   <property name="text">
+    <string>&amp;Recherche par section</string>
+   </property>
+  </action>
+  <action name="action_Recherche_par_section_et_niveau">
+   <property name="text">
+    <string>&amp;Recherche par section et niveau</string>
+   </property>
+  </action>
+  <action name="action_Recherche_par_niveau">
+   <property name="text">
+    <string>&amp;Recherche par niveau</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
