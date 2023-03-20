@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
-    <height>357</height>
+    <width>700</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,24 +45,52 @@ QPushButton#addBtn{
 	color: #2c4585;
 }
 
-#Explore_title{
+#nav{
+	border-style: solid;
+	border-width: 0 0 1 0;
+	border-color: #e1e1e1;
+}
+#Explorer_titre{
 	font-weight: 600;
 	font-size: 20px;
 }
-
-#scrollArea{
+#scrollArea, #scrollAreaContent{
+	background-color: transparent;
+}
+#ligneLivres{
 	background-color: transparent;
 	border-style: solid;
 	border-width: 1px 0px;
 	border-color: #e1e1e1;
 }
-#popularBooks{
+#livres{
 	background-color: transparent;
 }
-#popularBooks &gt; QPushButton{
+#livres &gt; QPushButton{
 	background-color: green;
 	/*border-image: url(:/testPrefix/arrow.jpg) 0 0 0 0 stretch stretch;*/
-}</string>
+}
+
+
+
+
+QScrollBar:vertical {
+  width: 8px;
+  margin: 0 2px;
+  border-style: none;
+	background-color: rgb(186, 189, 182);
+}
+QScrollBar::handle:vertical {
+  min-height: 10px;
+	background-color: rgb(85, 87, 83);
+}
+QScrollBar::sub-line:vertical {
+	height: 0;
+}
+QScrollBar::add-line:vertical {
+	height: 0;
+}
+</string>
   </property>
   <widget class="QWidget" name="tabs">
    <property name="styleSheet">
@@ -130,7 +158,7 @@ QPushButton#addBtn{
               <number>1</number>
              </property>
              <item>
-              <widget class="QPushButton" name="exploreBtn">
+              <widget class="QPushButton" name="livresBtn">
                <property name="maximumSize">
                 <size>
                  <width>170</width>
@@ -141,11 +169,11 @@ QPushButton#addBtn{
                 <enum>Qt::RightToLeft</enum>
                </property>
                <property name="text">
-                <string>Explore</string>
+                <string>Livres</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>arrow.jpg</normaloff>arrow.jpg</iconset>
+                 <normaloff>../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -175,7 +203,7 @@ QPushButton#addBtn{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="categoriesBtn">
+              <widget class="QPushButton" name="etudiantsBtn">
                <property name="maximumSize">
                 <size>
                  <width>170</width>
@@ -186,11 +214,11 @@ QPushButton#addBtn{
                 <enum>Qt::RightToLeft</enum>
                </property>
                <property name="text">
-                <string>Categories</string>
+                <string>Etudiants</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>arrow.jpg</normaloff>arrow.jpg</iconset>
+                 <normaloff>../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -220,7 +248,7 @@ QPushButton#addBtn{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="savedBtn">
+              <widget class="QPushButton" name="empruntesBtn">
                <property name="maximumSize">
                 <size>
                  <width>170</width>
@@ -231,11 +259,11 @@ QPushButton#addBtn{
                 <enum>Qt::RightToLeft</enum>
                </property>
                <property name="text">
-                <string>Saved</string>
+                <string>Empruntes</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>arrow.jpg</normaloff>arrow.jpg</iconset>
+                 <normaloff>../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -288,14 +316,17 @@ QPushButton#addBtn{
        </item>
        <item>
         <layout class="QVBoxLayout" name="main_content">
-         <property name="topMargin">
-          <number>13</number>
-         </property>
          <property name="rightMargin">
           <number>5</number>
          </property>
          <item>
-          <widget class="QWidget" name="horizontalWidget_2" native="true">
+          <widget class="QWidget" name="nav" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -306,13 +337,16 @@ QPushButton#addBtn{
             <property name="leftMargin">
              <number>10</number>
             </property>
+            <property name="topMargin">
+             <number>9</number>
+            </property>
             <property name="rightMargin">
              <number>10</number>
             </property>
             <item>
-             <widget class="QLabel" name="Explore_title">
+             <widget class="QLabel" name="Explorer_titre">
               <property name="text">
-               <string>Explore</string>
+               <string>Explorer</string>
               </property>
              </widget>
             </item>
@@ -344,161 +378,426 @@ QPushButton#addBtn{
          </item>
          <item>
           <widget class="QScrollArea" name="scrollArea">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>135</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>135</height>
-            </size>
-           </property>
-           <property name="verticalScrollBarPolicy">
+           <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOff</enum>
            </property>
            <property name="widgetResizable">
             <bool>true</bool>
            </property>
-           <widget class="QWidget" name="popularBooks">
+           <widget class="QWidget" name="scrollAreaContent">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>493</width>
-              <height>119</height>
+              <width>488</width>
+              <height>594</height>
              </rect>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <property name="bottomMargin">
-              <number>9</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>100</height>
-                </size>
+              <layout class="QVBoxLayout" name="action_aventure">
+               <property name="topMargin">
+                <number>20</number>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>&lt;h2&gt;Action et Aventure&lt;/h2&gt;</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QScrollArea" name="ligneLivres">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>135</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>135</height>
+                  </size>
+                 </property>
+                 <property name="verticalScrollBarPolicy">
+                  <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="livres">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>493</width>
+                    <height>119</height>
+                   </rect>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="bottomMargin">
+                    <number>9</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_7">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_6">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_5">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_3">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_7">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>100</height>
-                </size>
+              <layout class="QVBoxLayout" name="classique">
+               <property name="topMargin">
+                <number>20</number>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>&lt;h2&gt;Classique&lt;/h2&gt;</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QScrollArea" name="ligneLivres">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>135</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>135</height>
+                  </size>
+                 </property>
+                 <property name="verticalScrollBarPolicy">
+                  <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="livres">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>466</width>
+                    <height>133</height>
+                   </rect>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="bottomMargin">
+                    <number>9</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="livre1">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_6">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>100</height>
-                </size>
+              <layout class="QVBoxLayout" name="Détective et mystère">
+               <property name="topMargin">
+                <number>20</number>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_5">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>100</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>100</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>&lt;h2&gt;Détective et mystère&lt;/h2&gt;</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QScrollArea" name="ligneLivres">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>135</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>135</height>
+                  </size>
+                 </property>
+                 <property name="verticalScrollBarPolicy">
+                  <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="livres">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>493</width>
+                    <height>119</height>
+                   </rect>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="bottomMargin">
+                    <number>9</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_7">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_6">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_5">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_3">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>90</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
           </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton">
@@ -519,12 +818,12 @@ QPushButton#addBtn{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>596</width>
+     <width>700</width>
      <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">font-size: 14px;</string>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="styleSheet">
@@ -574,7 +873,91 @@ QPushButton#addBtn{
     <addaction name="menu_Mise_jour_tudiants"/>
     <addaction name="menu_Recherche_affichage"/>
    </widget>
+   <widget class="QMenu" name="menuLivre">
+    <property name="title">
+     <string>&amp;GESTION DES LIVRE</string>
+    </property>
+    <widget class="QMenu" name="menuMise_jour">
+     <property name="title">
+      <string>Mise à jour</string>
+     </property>
+     <widget class="QMenu" name="menuSupprimer">
+      <property name="title">
+       <string>Supprimer</string>
+      </property>
+      <addaction name="actionSuppression_livre_donn"/>
+      <addaction name="actionSuppression_livres_d_un_auteur_donn"/>
+      <addaction name="actionSuppression_livres_d_une_ann_e_donn_e"/>
+     </widget>
+     <addaction name="actionAjouter_un_nouvel_livre"/>
+     <addaction name="menuSupprimer"/>
+     <addaction name="actionModifier_nombre_d_exemplaires_d_un_livre"/>
+    </widget>
+    <widget class="QMenu" name="menuRecherche_affichage">
+     <property name="title">
+      <string>Recherche, affichage</string>
+     </property>
+     <addaction name="actionContenu_du_dictionnaire_LIVRE"/>
+     <addaction name="actionRecherche_par_R_f_rence"/>
+     <addaction name="actionRecherche_par_titre"/>
+     <addaction name="actionRecherche_livres_par_ann_e_dition_donn_e"/>
+     <addaction name="actionRecherche_et_affichage_des_livres_par_ordre_alphab_tique"/>
+    </widget>
+    <addaction name="menuMise_jour"/>
+    <addaction name="menuRecherche_affichage"/>
+   </widget>
+   <widget class="QMenu" name="menu_GESTION_DES_EMPRUNTS">
+    <property name="title">
+     <string>&amp;GESTION DES EMPRUNTS</string>
+    </property>
+    <widget class="QMenu" name="menuMise_jour_2">
+     <property name="title">
+      <string>Mise à jour</string>
+     </property>
+     <widget class="QMenu" name="menuModifier_Emprunt">
+      <property name="title">
+       <string>Modifier Emprunt</string>
+      </property>
+      <addaction name="actionDate_emprunt"/>
+      <addaction name="actionDate_retour"/>
+     </widget>
+     <addaction name="actionAjouter_un_nouvel_emprunt"/>
+     <addaction name="actionRetour_d_un_emprunt"/>
+     <addaction name="actionSupprimer_d_un_emprunt"/>
+     <addaction name="menuModifier_Emprunt"/>
+    </widget>
+    <widget class="QMenu" name="menuRecherche_affichage_2">
+     <property name="title">
+      <string>Recherche, affichage</string>
+     </property>
+     <addaction name="actionContenu_du_dictionnaire_EMPRUNT"/>
+     <addaction name="actionRecherche_emprunts_par_livre"/>
+     <addaction name="actionRecherche_emprunts_par_tudiant"/>
+     <addaction name="actionRecherche_livres_emprunt_s_une_date_donn_e"/>
+     <addaction name="actionRecherche_livres_retourn_s_une_date_donn_e"/>
+     <addaction name="actionRecherche_livres_emprunt_s_entre_2_dates_donn_es"/>
+     <addaction name="actionRecherche_livres_emprunt_s_entre_2_dates_donn_es_2"/>
+    </widget>
+    <addaction name="menuMise_jour_2"/>
+    <addaction name="menuRecherche_affichage_2"/>
+   </widget>
+   <widget class="QMenu" name="menuENREGISTREMENT_ET_R_CUP_RATION_DES_FICHIERS">
+    <property name="title">
+     <string>ENREGISTREMENT/RÉCUPÉRATION</string>
+    </property>
+    <addaction name="actionEnregistrement_fichier_ETUDIANTS"/>
+    <addaction name="actionEnregistrement_fichier_ETUDIANTS_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnregistrement_fichier_ETUDIANTS_3"/>
+    <addaction name="actionEnregistrement_fichier_ETUDIANTS_4"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnregistrement_fichier_ETUDIANTS_5"/>
+    <addaction name="actionEnregistrement_fichier_ETUDIANTS_6"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuLivre"/>
+   <addaction name="menu_GESTION_DES_EMPRUNTS"/>
+   <addaction name="menuENREGISTREMENT_ET_R_CUP_RATION_DES_FICHIERS"/>
   </widget>
   <action name="action_Ajouter_tudiant">
    <property name="text">
@@ -659,9 +1042,149 @@ QPushButton#addBtn{
     <string>&amp;Recherche par niveau</string>
    </property>
   </action>
+  <action name="actionAjouter_un_nouvel_livre">
+   <property name="text">
+    <string>Ajouter un nouvel livre</string>
+   </property>
+  </action>
+  <action name="actionModifier_nombre_d_exemplaires_d_un_livre">
+   <property name="text">
+    <string>Modifier nombre d'exemplaires d'un livre</string>
+   </property>
+  </action>
+  <action name="actionSuppression_livre_donn">
+   <property name="text">
+    <string>Suppression livre donné</string>
+   </property>
+  </action>
+  <action name="actionSuppression_livres_d_un_auteur_donn">
+   <property name="text">
+    <string>Suppression livres d'un auteur donné</string>
+   </property>
+  </action>
+  <action name="actionSuppression_livres_d_une_ann_e_donn_e">
+   <property name="text">
+    <string>Suppression livres d'une année donnée</string>
+   </property>
+  </action>
+  <action name="actionContenu_du_dictionnaire_LIVRE">
+   <property name="text">
+    <string>Contenu du dictionnaire LIVRE</string>
+   </property>
+  </action>
+  <action name="actionRecherche_par_R_f_rence">
+   <property name="text">
+    <string>Recherche par Référence</string>
+   </property>
+  </action>
+  <action name="actionRecherche_par_titre">
+   <property name="text">
+    <string>Recherche par titre</string>
+   </property>
+  </action>
+  <action name="actionRecherche_livres_par_ann_e_dition_donn_e">
+   <property name="text">
+    <string>Recherche livres par année édition donnée</string>
+   </property>
+  </action>
+  <action name="actionRecherche_et_affichage_des_livres_par_ordre_alphab_tique">
+   <property name="text">
+    <string>Recherche et affichage des livres par ordre alphabétique</string>
+   </property>
+  </action>
+  <action name="actionAjouter_un_nouvel_emprunt">
+   <property name="text">
+    <string>Ajouter un nouvel emprunt</string>
+   </property>
+  </action>
+  <action name="actionRetour_d_un_emprunt">
+   <property name="text">
+    <string>Retour d'un emprunt</string>
+   </property>
+  </action>
+  <action name="actionSupprimer_d_un_emprunt">
+   <property name="text">
+    <string>Supprimer un emprunt</string>
+   </property>
+  </action>
+  <action name="actionDate_emprunt">
+   <property name="text">
+    <string>Date emprunt</string>
+   </property>
+  </action>
+  <action name="actionDate_retour">
+   <property name="text">
+    <string>Date retour</string>
+   </property>
+  </action>
+  <action name="actionContenu_du_dictionnaire_EMPRUNT">
+   <property name="text">
+    <string>Contenu du dictionnaire EMPRUNT</string>
+   </property>
+  </action>
+  <action name="actionRecherche_emprunts_par_livre">
+   <property name="text">
+    <string>Recherche emprunts par livre</string>
+   </property>
+  </action>
+  <action name="actionRecherche_emprunts_par_tudiant">
+   <property name="text">
+    <string>Recherche emprunts par étudiant</string>
+   </property>
+  </action>
+  <action name="actionRecherche_livres_emprunt_s_une_date_donn_e">
+   <property name="text">
+    <string>Recherche livres empruntés à une date donnée</string>
+   </property>
+  </action>
+  <action name="actionRecherche_livres_retourn_s_une_date_donn_e">
+   <property name="text">
+    <string>Recherche livres retournés à une date donnée</string>
+   </property>
+  </action>
+  <action name="actionRecherche_livres_emprunt_s_entre_2_dates_donn_es">
+   <property name="text">
+    <string>Recherche livres empruntés entre 2 dates données</string>
+   </property>
+  </action>
+  <action name="actionRecherche_livres_emprunt_s_entre_2_dates_donn_es_2">
+   <property name="text">
+    <string>Recherche livres retournés entre 2 dates données</string>
+   </property>
+  </action>
+  <action name="actionEnregistrement_fichier_ETUDIANTS">
+   <property name="text">
+    <string>Enregistrement fichier ETUDIANTS</string>
+   </property>
+  </action>
+  <action name="actionEnregistrement_fichier_ETUDIANTS_2">
+   <property name="text">
+    <string>Récupération fichier ETUDIANTS</string>
+   </property>
+  </action>
+  <action name="actionEnregistrement_fichier_ETUDIANTS_3">
+   <property name="text">
+    <string>Enregistrement fichier LIVRES</string>
+   </property>
+  </action>
+  <action name="actionEnregistrement_fichier_ETUDIANTS_4">
+   <property name="text">
+    <string>Récupération fichier LIVRES</string>
+   </property>
+  </action>
+  <action name="actionEnregistrement_fichier_ETUDIANTS_5">
+   <property name="text">
+    <string>Enregistrement fichier EMPRUNTS</string>
+   </property>
+  </action>
+  <action name="actionEnregistrement_fichier_ETUDIANTS_6">
+   <property name="text">
+    <string>Récupération fichier EMPRUNTS</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="test.qrc"/>
+  <include location="../../Documents/PythonProjects/QtProjects/MiniProject/test.qrc"/>
  </resources>
  <connections/>
 </ui>

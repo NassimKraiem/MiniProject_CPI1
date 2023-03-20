@@ -6,11 +6,13 @@ def afficherEtudiants(etudiants, windows, query=""):
     if(empty(query)):
         filtred = etudiants.copy();
     else:
-        filtred = list(filter(lambda x: query in x.nom, etudiants));
+        filtred = list(filter(lambda x: query in x.nom, etudiants))
     
     
     windows.table.setRowCount(len(filtred))
     for i, etudiant in enumerate(filtred):
+        item = QTableWidgetItem(etudiant.nce)
+        windows.table.setVerticalHeaderItem(i, item)
         windows.table.setItem(i, 0, QTableWidgetItem(etudiant.nom))
         windows.table.setItem(i, 1, QTableWidgetItem(etudiant.prenom))
         windows.table.setItem(i, 2, QTableWidgetItem(etudiant.dateN))
@@ -20,5 +22,6 @@ def afficherEtudiants(etudiants, windows, query=""):
         windows.table.setItem(i, 6, QTableWidgetItem(etudiant.section))
         windows.table.setItem(i, 7, QTableWidgetItem(etudiant.niveau))
         
-def filterEtudiants():
-    pass
+# def filterEtudiants(etudiants, windows):
+#     query = windows.searchBar.text()
+#     return etudiants.copy() if empty(query) else list(filter(lambda x: query in x.nom, etudiants))
