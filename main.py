@@ -12,27 +12,20 @@ from connects import *
 app = QApplication([])
 windows = loadUi("ui/main.ui")
 etudPanWin = loadUi("ui/etudiantPanel.ui")
-livrePanWin = loadUi("ui/livrePanel.ui")
+# etudPanWin.setWindowFlags(QtCore.Qt.Window)
+# etudPanWin.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
-etudiants = dbManager.charger("etudiants")
-interface.afficherEtudiants(etudiants, windows)
-
-livres = dbManager.chargerLivre("livres")
-interface.afficherLivres(livres, windows)
-
-def loadTabLivres(windows):
-    global etudiants
+livrePanWin = None
+def loadLivrePan():
     global livrePanWin
+    livrePanWin = loadUi("ui/livrePanel.ui")
+    livrePanWin.setWindowFlags(QtCore.Qt.Window)
+    livrePanWin.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
     def setWindowBtnsState(win, state):
         win.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, state)
         win.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, state)
         win.setWindowFlag(QtCore.Qt.WindowMinimizeButtonHint, state)
-
-    def charger():
-        global livres
-        livres = dbManager.chargerLivre("livres")
-        interface.afficherLivres(livres, windows)
     
     def clicker():
         livrePanWin.hide()
@@ -41,8 +34,6 @@ def loadTabLivres(windows):
             livrePanWin.coverUrl.setText(fname[0])
             livrePanWin.coverImg.setStyleSheet(f"border-image : url({fname[0]}) 0 0 0 0 stretch stretch;")
             livrePanWin.show()
-    
-    windows.ajouterLivreBtn.clicked.connect(lambda: openAddWindow(windows, livrePanWin))
 
     livrePanWin.setWindowFlags(livrePanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     setWindowBtnsState(livrePanWin, False)
@@ -59,11 +50,32 @@ def loadTabLivres(windows):
                                                     ),
                                                     interface.afficherLivres(livres, windows),
                                                     livrePanWin.close(),
+                                                    loadLivrePan(),
                                                     windows.setEnabled(True)
                                                 )
                                             )
     livrePanWin.buttonBox.rejected.connect(lambda: (livrePanWin.close(), windows.setEnabled(True)))
     livrePanWin.selectCoverBtn.clicked.connect(clicker)
+
+loadLivrePan()
+
+etudiants = dbManager.charger("etudiants")
+interface.afficherEtudiants(etudiants, windows)
+
+livres = dbManager.chargerLivre("livres")
+interface.afficherLivres(livres, windows)
+
+def loadTabLivres(windows):
+    global etudiants
+    global livrePanWin
+    def charger():
+        global livres
+        livres = dbManager.chargerLivre("livres")
+        interface.afficherLivres(livres, windows)
+    
+    windows.ajouterLivreBtn.clicked.connect(lambda: openAddWindow(windows, livrePanWin))
+
+    
     windows.loadLivresBtn.clicked.connect(charger)
     windows.saveLivresBtn.clicked.connect(lambda: dbManager.enregistrer(livres, "livres"))
 
