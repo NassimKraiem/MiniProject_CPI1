@@ -1,3 +1,4 @@
+import template
 from PyQt5.QtWidgets import QTableWidgetItem
 from objects import *
 from helper import *
@@ -33,3 +34,7 @@ def afficherEtudiants(etudiants, windows, query=""):
 def afficherLivres(livres, windows):
     print('-'*30)
     print(*sorted(livres, key=lambda x:x.categorie), sep="\n")
+    print('-'*30)
+    ttt = template.getBody(livres, windows)
+    for tt in ttt:
+        windows.scrollAreaContent.layout().addWidget(tt)

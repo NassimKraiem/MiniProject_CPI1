@@ -8,7 +8,6 @@ from PyQt5 import QtCore
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication
 from connects import *
-from template import getBody
 
 app = QApplication([])
 windows = loadUi("ui/main.ui")
@@ -113,10 +112,6 @@ def loadTabEtudiants(windows):
 
 def connectNavBar(windows):
     windows.action_Ajouter_tudiant_2.triggered.connect(lambda: openAddWindow(windows, etudPanWin))
-
-ttt = getBody(dbManager.chargerLivre('livres'), windows)
-for tt in ttt:
-    windows.scrollAreaContent.layout().addWidget(tt)
 
 aside.connectBtns(windows)
 loadTabLivres(windows)
