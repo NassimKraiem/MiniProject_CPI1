@@ -30,11 +30,17 @@ def afficherEtudiants(etudiants, windows, query=""):
 
 
 
+def clearLayout(layout):
+    while layout.count():
+        child = layout.takeAt(0).widget().deleteLater()
 
 def afficherLivres(livres, windows):
-    print('-'*30)
-    print(*sorted(livres, key=lambda x:x.categorie), sep="\n")
-    print('-'*30)
-    ttt = template.getBody(livres, windows)
-    for tt in ttt:
-        windows.scrollAreaContent.layout().addWidget(tt)
+    # print('-'*30)
+    # print(*sorted(livres, key=lambda x:x.categorie), sep="\n")
+    # print('-'*30)
+
+    clearLayout(windows.scrollAreaContent.layout())
+
+    lignes = template.getBody(livres, windows)
+    for ligne in lignes:
+        windows.scrollAreaContent.layout().addWidget(ligne)

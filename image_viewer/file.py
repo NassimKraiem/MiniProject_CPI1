@@ -6,7 +6,7 @@ windows = loadUi ("file.ui")
 
 
 def clicker():
-    fname = QFileDialog.getOpenFileName(windows, "Select book Image", "", "Image Files (*.png, *jpg)")
+    fname = QFileDialog.getOpenFileName(windows, "Select book Cover", "", "Image Files (*.png, *jpg)")
     if(fname):
         windows.urlLabel.setText(fname[0])
         windows.imgLabel.setStyleSheet(f"border-image : url({fname[0]}) 0 0 0 0 stretch stretch;")

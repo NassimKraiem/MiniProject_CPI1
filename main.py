@@ -6,7 +6,7 @@ import livre as l
 import interfaceFunctions as interface
 from PyQt5 import QtCore
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QFileDialog
 from connects import *
 
 app = QApplication([])
@@ -34,6 +34,14 @@ def loadTabLivres(windows):
         livres = dbManager.chargerLivre("livres")
         interface.afficherLivres(livres, windows)
     
+    def clicker():
+        livrePanWin.hide()
+        fname = QFileDialog.getOpenFileName(windows, "Select book Cover", "", "Image Files (*.png, *jpg)")
+        if(fname):
+            livrePanWin.coverUrl.setText(fname[0])
+            livrePanWin.coverImg.setStyleSheet(f"border-image : url({fname[0]}) 0 0 0 0 stretch stretch;")
+            livrePanWin.show()
+    
     windows.ajouterLivreBtn.clicked.connect(lambda: openAddWindow(windows, livrePanWin))
 
     livrePanWin.setWindowFlags(livrePanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
@@ -55,6 +63,9 @@ def loadTabLivres(windows):
                                                 )
                                             )
     livrePanWin.buttonBox.rejected.connect(lambda: (livrePanWin.close(), windows.setEnabled(True)))
+    livrePanWin.selectCoverBtn.clicked.connect(clicker)
+    windows.loadLivresBtn.clicked.connect(charger)
+    windows.saveLivresBtn.clicked.connect(lambda: dbManager.enregistrer(livres, "livres"))
 
 
 def loadTabEtudiants(windows):

@@ -429,7 +429,7 @@ QScrollBar::add-line:vertical {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>518</width>
+                  <width>477</width>
                   <height>368</height>
                  </rect>
                 </property>
@@ -440,6 +440,32 @@ QScrollBar::add-line:vertical {
              <item>
               <widget class="QWidget" name="livreTabToolBar" native="true">
                <layout class="QHBoxLayout" name="livreTabToolBarLayout">
+                <item>
+                 <widget class="QPushButton" name="saveLivresBtn">
+                  <property name="maximumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>S</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="loadLivresBtn">
+                  <property name="maximumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>L</string>
+                  </property>
+                 </widget>
+                </item>
                 <item>
                  <spacer name="horizontalSpacer_5">
                   <property name="orientation">
