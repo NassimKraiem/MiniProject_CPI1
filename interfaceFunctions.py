@@ -25,3 +25,11 @@ def afficherEtudiants(etudiants, windows, query=""):
 # def filterEtudiants(etudiants, windows):
 #     query = windows.searchBar.text()
 #     return etudiants.copy() if empty(query) else list(filter(lambda x: query in x.nom, etudiants))
+
+
+
+
+
+def afficherLivres(livres, windows):
+    print('-'*30)
+    print(*sorted(livres, key=lambda x:x.categorie), sep="\n")

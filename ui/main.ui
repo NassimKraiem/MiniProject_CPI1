@@ -17,13 +17,18 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton#delBtn{
+   <string notr="true">QPushButton#delBtn, QPushButton#suppLivreBtn{
 	background-color: red;
 	color: white;
 }
-QPushButton#addBtn{
+QPushButton#addBtn, QPushButton#ajouterLivreBtn{
 	background-color: green;
 	color: white;
+}
+#livreTabToolBar, #etudTabToolBar{
+	border-style: solid;
+	border-width: 2px 0 0 0;
+	border-color: #e1e1e1;
 }
 
 #body{
@@ -43,6 +48,16 @@ QPushButton#addBtn{
 }
 #side_nav &gt; #top_aside &gt; QPushButton[current=true]{
 	color: #2c4585;
+}
+
+QTabWidget#tabWidget {
+	border: none;
+}
+QTabWidget#tabWidget::pane {
+	border: 0;
+}
+QTabWidget#tabWidget QTabBar::tab {
+	width: 0;
 }
 
 #nav{
@@ -97,6 +112,18 @@ QScrollBar::add-line:vertical {
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <widget class="QWidget" name="body" native="true">
       <property name="minimumSize">
@@ -304,11 +331,6 @@ QScrollBar::add-line:vertical {
        </item>
        <item>
         <widget class="QTabWidget" name="tabWidget">
-         <property name="styleSheet">
-          <string notr="true">QTabBar::tab {
-  width: 0;
-}</string>
-         </property>
          <property name="tabPosition">
           <enum>QTabWidget::West</enum>
          </property>
@@ -320,10 +342,22 @@ QScrollBar::add-line:vertical {
            <string>Tab 1</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item row="0" column="0">
             <layout class="QVBoxLayout" name="main_content">
              <property name="rightMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item>
               <widget class="QWidget" name="nav" native="true">
@@ -395,7 +429,7 @@ QScrollBar::add-line:vertical {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>486</width>
+                  <width>510</width>
                   <height>594</height>
                  </rect>
                 </property>
@@ -596,7 +630,7 @@ QScrollBar::add-line:vertical {
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>464</width>
+                        <width>488</width>
                         <height>133</height>
                        </rect>
                       </property>
@@ -806,10 +840,36 @@ QScrollBar::add-line:vertical {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton">
-               <property name="text">
-                <string>PushButton</string>
-               </property>
+              <widget class="QWidget" name="livreTabToolBar" native="true">
+               <layout class="QHBoxLayout" name="livreTabToolBarLayout">
+                <item>
+                 <spacer name="horizontalSpacer_5">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="suppLivreBtn">
+                  <property name="text">
+                   <string>Supp.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="ajouterLivreBtn">
+                  <property name="text">
+                   <string>Ajouter</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
@@ -821,8 +881,29 @@ QScrollBar::add-line:vertical {
            <string>Tab 2</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_2">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item row="0" column="0">
             <layout class="QVBoxLayout" name="etudiants">
+             <property name="topMargin">
+              <number>7</number>
+             </property>
+             <property name="rightMargin">
+              <number>7</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
@@ -928,41 +1009,43 @@ QScrollBar::add-line:vertical {
                </column>
               </widget>
              </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="delBtn">
-                 <property name="text">
-                  <string>del</string>
-                 </property>
-                 <property name="col" stdset="0">
-                  <string>red</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="addBtn">
-                 <property name="text">
-                  <string>add</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
             </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QWidget" name="etudTabToolBar" native="true">
+             <layout class="QHBoxLayout" name="etudTabToolBarLayout">
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="delBtn">
+                <property name="text">
+                 <string>del</string>
+                </property>
+                <property name="col" stdset="0">
+                 <string>red</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="addBtn">
+                <property name="text">
+                 <string>add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -1365,7 +1448,7 @@ QScrollBar::add-line:vertical {
   </action>
  </widget>
  <resources>
-  <include location="../../Documents/PythonProjects/QtProjects/MiniProject/test.qrc"/>
+  <include location="test.qrc"/>
  </resources>
  <connections/>
 </ui>

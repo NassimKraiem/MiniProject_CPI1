@@ -9,9 +9,9 @@ from PyQt5.QtWidgets import QApplication
 
 
 app = QApplication([])
-windows = loadUi ("main2.ui")
-etudPanWin = loadUi("etudiantPanel.ui")
-#w2 = loadUi("main.ui")
+windows = loadUi("ui/main2.ui")
+etudPanWin = loadUi("ui/etudiantPanel.ui")
+#w2 = loadUi("ui/main.ui")
 
 etudiants = [e.ajouter(nce=f"{random.randint(10000000, 99999999)}", nom=f"user{i}", telephone=f"{random.randint(50, 99)} {random.randint(100, 999)} {random.randint(100, 999)}", dateN="13/12/2003")for i in range(50)]
 #a1 = e.ajouter(nce="12345678", nom="Nassim", prenom="Kraiem")

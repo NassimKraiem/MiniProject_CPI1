@@ -1,22 +1,41 @@
 import csv
+import os
 import etudiant as e
+import livre as l
+
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def existe(nce, etudiants):
     return e.ajouter(nce) in etudiants
 
 
-def charger():
+def charger(fname):
+    if(not os.path.isfile(f"{BASE_DIR}/DB/{fname}.csv")):
+        print(f"{fname}.csv does not exist in {BASE_DIR}/DB/")
+        return []
+
     etudiants = []
-    with open('test.csv') as csv_file:
+    with open(f"DB/{fname}.csv") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         etudiants = [e.ajouter(*row) for row in csv_reader]
     return etudiants
 
-print(*charger(), sep="\n")
+def chargerLivre(fname):
+    if(not os.path.isfile(f"{BASE_DIR}/DB/{fname}.csv")):
+        print(f"{fname}.csv does not exist in {BASE_DIR}/DB/")
+        return []
+
+    livres = []
+    with open(f"DB/{fname}.csv") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        livres = [l.ajouter(*row) for row in csv_reader]
+    return livres
+
+#print(*charger('test.csv'), sep="\n")
 
 
-def enregistrer(etudiants):
-    with open('test.csv', 'w',newline='\n') as csv_file:
+def enregistrer(classList, fname):
+    with open(f"DB/{fname}.csv", 'w',newline='\n') as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
-        for etudiant in etudiants:
-            writer.writerow(etudiant.locals)
+        for cls in classList:
+            writer.writerow(cls.locals)
