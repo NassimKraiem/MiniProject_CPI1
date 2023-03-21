@@ -1,8 +1,13 @@
 import dbManager
-import os
+from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QScrollArea, QWidget, QSpacerItem, QSizePolicy
 
 def btn(l):
-    return f"""
+    livre = QPushButton(l.reference)
+    livre.setFixedHeight(100)
+    livre.setFixedWidth(90)
+    livre.setText(l.titre)
+    return livre
+    f"""
         <item>
             <widget class="QPushButton" name="{l.reference}">
                 <property name="minimumSize">
@@ -24,7 +29,7 @@ def btn(l):
         </item>
     """
 
-def getBody(livres):
+def getBody(livres, windows):
     res = []
     livres = sorted(livres, key=lambda x:x.categorie)
     #cats = set([(i.categorie, *filter(lambda x: x.categorie == i.categorie, livres)) for i in livres])
@@ -36,7 +41,42 @@ def getBody(livres):
     for ls, c in dict:
         print(f'    {c}:', end='\n\t')
         print(*ls, sep='\n\t')
+        ttt = QWidget()
+        ligne = QVBoxLayout()
+        ligne.setObjectName(c)
+        ligne.setContentsMargins(0,20,0,0)
 
+        catTitleLabel = QLabel()
+        catTitleLabel.setText(f"<h2>{c}</h2>")
+
+        scrollArea = QScrollArea()
+        scrollArea.setObjectName(f'ligneLivres{c}')
+        scrollArea.setMinimumHeight(135)
+        scrollArea.setMaximumHeight(135)
+        #scrollArea.setFixedHeight(135)
+        #scrollArea.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff)
+        scrollArea.setWidgetResizable(True)
+
+
+        ligne.addWidget(catTitleLabel)
+        #ligne.addWidget(btn(ls[0]))
+        
+
+        scrollAreaContent = QWidget()
+        scrollAreaContentLayout = QHBoxLayout()
+        for l in ls:
+            scrollAreaContentLayout.addWidget(btn(l))
+        scrollAreaContentLayout.addItem(QSpacerItem(40,20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        scrollAreaContent.setLayout(scrollAreaContentLayout)
+        scrollArea.setWidget(scrollAreaContent)
+
+        ligne.addWidget(scrollArea)
+        
+        ttt.setLayout(ligne)
+
+
+        res.append(ttt)
+        continue
         res.append("""
             <item>
                 <layout class="QVBoxLayout" name="classique">
