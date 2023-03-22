@@ -1,5 +1,5 @@
 import template
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from objects import *
 from helper import *
 
@@ -44,3 +44,35 @@ def afficherLivres(livres, windows, edit):
     lignes = template.getBody(livres, windows, edit)
     for ligne in lignes:
         windows.scrollAreaContent.layout().addWidget(ligne)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def alert(msg="Critical", title="Error MessageBox"):
+    msgBox = QMessageBox()
+    msgBox.setIcon(QMessageBox.Critical)
+    msgBox.setText(msg)
+    msgBox.setWindowTitle(title)
+    msgBox.setStandardButtons(QMessageBox.Ok)
+    msgBox.exec_()
+
+def alert(msg="Warning", title="Warning MessageBox"):
+    msgBox = QMessageBox()
+    msgBox.setIcon(QMessageBox.Warning)
+    msgBox.setText(msg)
+    msgBox.setWindowTitle(title)
+    msgBox.setStandardButtons(QMessageBox.Ok)
+    msgBox.exec_()

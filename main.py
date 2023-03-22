@@ -14,19 +14,33 @@ windows = loadUi("ui/main.ui")
 etudPanWin = loadUi("ui/etudiantPanel.ui")
 # etudPanWin.setWindowFlags(QtCore.Qt.Window)
 # etudPanWin.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+livrePanWin = loadUi("ui/livrePanel.ui")
+# livrePanWin.setWindowFlags(QtCore.Qt.Window)
+# livrePanWin.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
-livrePanWin = None
-def loadLivrePan():
+
+
+etudiants = dbManager.charger("etudiants")
+interface.afficherEtudiants(etudiants, windows)
+
+# livres = dbManager.chargerLivre("livres")
+# interface.afficherLivres(livres, windows, edit)
+livres = []
+
+def loadTabLivres(windows):
+    global etudiants
     global livrePanWin
-    livrePanWin = loadUi("ui/livrePanel.ui")
-    livrePanWin.setWindowFlags(QtCore.Qt.Window)
-    livrePanWin.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
     def setWindowBtnsState(win, state):
         win.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, state)
         win.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, state)
         win.setWindowFlag(QtCore.Qt.WindowMinimizeButtonHint, state)
     
+    def charger():
+        global livres
+        livres = dbManager.chargerLivre("livres")
+        interface.afficherLivres(livres, windows, edit)
+
     def clicker():
         livrePanWin.hide()
         fname = QFileDialog.getOpenFileName(windows, "Select book Cover", "", "Image Files (*.png, *jpg)")
@@ -34,6 +48,30 @@ def loadLivrePan():
             livrePanWin.coverUrl.setText(fname[0])
             livrePanWin.coverImg.setStyleSheet(f"border-image : url({fname[0]}) 0 0 0 0 stretch stretch;")
             livrePanWin.show()
+    
+    def edit(livre):
+        livrePanWin.ref.setValue(int(livre.reference[1:]))
+        livrePanWin.ref.setDisabled(True)
+        livrePanWin.titre.setText(livre.titre)
+        livrePanWin.nomAut.setText(livre.npAuteur)
+        livrePanWin.anneeEdition.setValue(int(livre.anneeEdition))
+        livrePanWin.nbExemp.setValue(int(livre.nombreExemplaires))
+        index = livrePanWin.categorie.findText(livre.categorie, QtCore.Qt.MatchFixedString)
+        livrePanWin.categorie.setCurrentIndex(index)
+        livrePanWin.coverUrl.setText(livre.couverture)
+        livrePanWin.coverImg.setStyleSheet(f"border-image : url({livre.couverture}) 0 0 0 0 stretch stretch;")
+        livrePanWin.show()
+
+    def resetLivrePan():
+        livrePanWin.ref.setValue(0)
+        livrePanWin.ref.setDisabled(False)
+        livrePanWin.titre.setText('')
+        livrePanWin.nomAut.setText('')
+        livrePanWin.anneeEdition.setValue(2000)
+        livrePanWin.nbExemp.setValue(1)
+        livrePanWin.categorie.setCurrentIndex(-1)
+        livrePanWin.coverUrl.setText('')
+        livrePanWin.coverImg.setStyleSheet('')
 
     livrePanWin.setWindowFlags(livrePanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     setWindowBtnsState(livrePanWin, False)
@@ -50,46 +88,18 @@ def loadLivrePan():
                                                     ),
                                                     interface.afficherLivres(livres, windows, edit),
                                                     livrePanWin.close(),
-                                                    loadLivrePan(),
                                                     windows.setEnabled(True)
                                                 )
                                             )
     livrePanWin.buttonBox.rejected.connect(lambda: (livrePanWin.close(), windows.setEnabled(True)))
     livrePanWin.selectCoverBtn.clicked.connect(clicker)
-
-loadLivrePan()
-
-def edit(livre):
-    loadLivrePan()
-    livrePanWin.ref.setValue(int(livre.reference[1:]))
-    livrePanWin.titre.setText(livre.titre)
-    livrePanWin.nomAut.setText(livre.npAuteur)
-    livrePanWin.anneeEdition.setValue(int(livre.anneeEdition))
-    livrePanWin.nbExemp.setValue(int(livre.nombreExemplaires))
-    index = livrePanWin.categorie.findText(livre.categorie, QtCore.Qt.MatchFixedString)
-    livrePanWin.categorie.setCurrentIndex(index)
-    livrePanWin.coverUrl.setText(livre.couverture)
-    livrePanWin.show()
-
-etudiants = dbManager.charger("etudiants")
-interface.afficherEtudiants(etudiants, windows)
-
-livres = dbManager.chargerLivre("livres")
-interface.afficherLivres(livres, windows, edit)
-
-def loadTabLivres(windows):
-    global etudiants
-    global livrePanWin
-    def charger():
-        global livres
-        livres = dbManager.chargerLivre("livres")
-        interface.afficherLivres(livres, windows, edit)
     
-    windows.ajouterLivreBtn.clicked.connect(lambda: openAddWindow(windows, livrePanWin))
+    windows.ajouterLivreBtn.clicked.connect(lambda: (resetLivrePan(), openAddWindow(windows, livrePanWin)))
 
     
     windows.loadLivresBtn.clicked.connect(charger)
     windows.saveLivresBtn.clicked.connect(lambda: dbManager.enregistrer(livres, "livres"))
+    #charger()
 
 
 def loadTabEtudiants(windows):
@@ -138,7 +148,7 @@ def loadTabEtudiants(windows):
                                                     interface.afficherEtudiants(etudiants, windows),
                                                     etudPanWin.close(),
                                                     windows.setEnabled(True)
-                                                )
+                                                ) if(not dbManager.existe(etudPanWin.nce.text(), etudiants)) else interface.alert("Etudiant existant!")
                                             )
     etudPanWin.buttonBox.rejected.connect(lambda: (etudPanWin.close(), windows.setEnabled(True)))
 
