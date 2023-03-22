@@ -72,19 +72,6 @@ QTabWidget#tabWidget QTabBar::tab {
 #scrollArea, #scrollAreaContent{
 	background-color: transparent;
 }
-#ligneLivres{
-	background-color: transparent;
-	border-style: solid;
-	border-width: 1px 0px;
-	border-color: #e1e1e1;
-}
-#livres{
-	background-color: transparent;
-}
-#livres &gt; QPushButton{
-	background-color: green;
-	/*border-image: url(:/testPrefix/arrow.jpg) 0 0 0 0 stretch stretch;*/
-}
 
 
 

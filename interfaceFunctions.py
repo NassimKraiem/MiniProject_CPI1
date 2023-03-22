@@ -34,13 +34,13 @@ def clearLayout(layout):
     while layout.count():
         child = layout.takeAt(0).widget().deleteLater()
 
-def afficherLivres(livres, windows):
+def afficherLivres(livres, windows, edit):
     # print('-'*30)
     # print(*sorted(livres, key=lambda x:x.categorie), sep="\n")
     # print('-'*30)
 
     clearLayout(windows.scrollAreaContent.layout())
 
-    lignes = template.getBody(livres, windows)
+    lignes = template.getBody(livres, windows, edit)
     for ligne in lignes:
         windows.scrollAreaContent.layout().addWidget(ligne)

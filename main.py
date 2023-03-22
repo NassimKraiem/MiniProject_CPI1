@@ -48,7 +48,7 @@ def loadLivrePan():
                                                         livrePanWin.categorie.currentText(),
                                                         livrePanWin.coverUrl.text())
                                                     ),
-                                                    interface.afficherLivres(livres, windows),
+                                                    interface.afficherLivres(livres, windows, edit),
                                                     livrePanWin.close(),
                                                     loadLivrePan(),
                                                     windows.setEnabled(True)
@@ -59,11 +59,23 @@ def loadLivrePan():
 
 loadLivrePan()
 
+def edit(livre):
+    loadLivrePan()
+    livrePanWin.ref.setValue(int(livre.reference[1:]))
+    livrePanWin.titre.setText(livre.titre)
+    livrePanWin.nomAut.setText(livre.npAuteur)
+    livrePanWin.anneeEdition.setValue(int(livre.anneeEdition))
+    livrePanWin.nbExemp.setValue(int(livre.nombreExemplaires))
+    index = livrePanWin.categorie.findText(livre.categorie, QtCore.Qt.MatchFixedString)
+    livrePanWin.categorie.setCurrentIndex(index)
+    livrePanWin.coverUrl.setText(livre.couverture)
+    livrePanWin.show()
+
 etudiants = dbManager.charger("etudiants")
 interface.afficherEtudiants(etudiants, windows)
 
 livres = dbManager.chargerLivre("livres")
-interface.afficherLivres(livres, windows)
+interface.afficherLivres(livres, windows, edit)
 
 def loadTabLivres(windows):
     global etudiants
@@ -71,7 +83,7 @@ def loadTabLivres(windows):
     def charger():
         global livres
         livres = dbManager.chargerLivre("livres")
-        interface.afficherLivres(livres, windows)
+        interface.afficherLivres(livres, windows, edit)
     
     windows.ajouterLivreBtn.clicked.connect(lambda: openAddWindow(windows, livrePanWin))
 
