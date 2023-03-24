@@ -7,13 +7,36 @@ def ajouter(nce, nom="", prenom="", dateN="", adresse="", mail="", telephone="",
 #def supprimer(etud, lo):
 #    lo.remove(etud)
 
-def supprimer(indEtud, etudiants, windows):
+def supprimerParNce(nce, etudiants):
+    if(nce == None):
+        return
+    etud = ajouter(nce)
+    indEtud = etudiants.index(etud)
+    print(indEtud)
     if(indEtud in range(0, len(etudiants))):
-        id = windows.table.verticalHeaderItem(indEtud).text()
-        etudiants.remove(ajouter(id)) #creer une instance avec le meme nce comme reference de comparaison
-                                      #puisque le nce seulement est comparé dans "__eq__"
+        etudiants.remove(etud) #creer une instance avec le meme nce comme reference de comparaison
+                                    #puisque le nce seulement est comparé dans "__eq__"
     else:
         raise Exception("L'indice de l'etudiant n'existe pas!")
+
+def supprimerParSection(section, etudiants):
+    if(section == None):
+        return []
+    return list(filter(lambda x:x.section != section, etudiants))
+
+def supprimerParNiveau(niveau, etudiants):
+    if(niveau == None):
+        return []
+    return list(filter(lambda x:x.niveau != niveau, etudiants))
+
+def supprimer(etudiants, windows):
+    for indEtud in sorted(set([i.row() for i in windows.table.selectedIndexes()]), reverse=True):
+        if(indEtud in range(0, len(etudiants))):
+            id = windows.table.verticalHeaderItem(indEtud).text()
+            etudiants.remove(ajouter(id)) #creer une instance avec le meme nce comme reference de comparaison
+                                        #puisque le nce seulement est comparé dans "__eq__"
+        else:
+            raise Exception("L'indice de l'etudiant n'existe pas!")
     
 def modifier(indEtud, etudiants, nce="", nom ="", prenom ="", dateN ="", adresse ="", mail ="", telephone ="", section ="", niveau =""):
     if not empty(nce): etudiants[indEtud].nce = nce

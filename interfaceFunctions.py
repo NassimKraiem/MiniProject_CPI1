@@ -1,5 +1,5 @@
 import template
-from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QInputDialog
 from objects import *
 from helper import *
 
@@ -34,14 +34,14 @@ def clearLayout(layout):
     while layout.count():
         child = layout.takeAt(0).widget().deleteLater()
 
-def afficherLivres(livres, windows, edit):
+def afficherLivres(livres, windows, edit, groupBy="Categorie"):
     # print('-'*30)
     # print(*sorted(livres, key=lambda x:x.categorie), sep="\n")
     # print('-'*30)
 
     clearLayout(windows.scrollAreaContent.layout())
 
-    lignes = template.getBody(livres, windows, edit)
+    lignes = template.getBody(livres, windows, edit, groupBy)
     for ligne in lignes:
         windows.scrollAreaContent.layout().addWidget(ligne)
 
@@ -61,7 +61,7 @@ def afficherLivres(livres, windows, edit):
 
 
 
-def alert(msg="Critical", title="Error MessageBox"):
+def error(msg="Critical", title="Error MessageBox"):
     msgBox = QMessageBox()
     msgBox.setIcon(QMessageBox.Critical)
     msgBox.setText(msg)
@@ -76,3 +76,27 @@ def alert(msg="Warning", title="Warning MessageBox"):
     msgBox.setWindowTitle(title)
     msgBox.setStandardButtons(QMessageBox.Ok)
     msgBox.exec_()
+
+def askForInt(msg="Donner n:", title="Input Dialog"):
+    input = QInputDialog()
+    input.setWindowTitle("test")
+    n, done = QInputDialog.getInt(input, title, msg)
+    print(n, done)
+    if done:
+        return n
+    else:
+        return None
+
+def askForItem(msg="Selectionner:", title="Input Dialog", items=["test"]):
+    input = QInputDialog()
+    item, done = QInputDialog.getItem(input, title, msg, items, -1, False)
+    print(item, done)
+    if done:
+        return item
+    else:
+        return None
+
+def test(etudiants):
+    #askForItem(items=[etud.nce for etud in etudiants])
+    print("Done")
+    pass

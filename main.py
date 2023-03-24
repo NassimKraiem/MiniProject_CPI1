@@ -1,3 +1,4 @@
+from curses import window
 import aside
 from connects import openAddWindow
 import dbManager
@@ -9,6 +10,8 @@ from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from connects import *
 
+groupLivreBy = "Categorie"
+
 app = QApplication([])
 windows = loadUi("ui/main.ui")
 etudPanWin = loadUi("ui/etudiantPanel.ui")
@@ -19,12 +22,11 @@ livrePanWin = loadUi("ui/livrePanel.ui")
 # livrePanWin.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
 
-
 etudiants = dbManager.charger("etudiants")
 interface.afficherEtudiants(etudiants, windows)
 
 # livres = dbManager.chargerLivre("livres")
-# interface.afficherLivres(livres, windows, edit)
+# interface.afficherLivres(livres, windows, edit, groupLivreBy)
 livres = []
 
 def loadTabLivres(windows):
@@ -39,7 +41,7 @@ def loadTabLivres(windows):
     def charger():
         global livres
         livres = dbManager.chargerLivre("livres")
-        interface.afficherLivres(livres, windows, edit)
+        interface.afficherLivres(livres, windows, edit, groupLivreBy)
 
     def clicker():
         livrePanWin.hide()
@@ -72,34 +74,44 @@ def loadTabLivres(windows):
         livrePanWin.categorie.setCurrentIndex(-1)
         livrePanWin.coverUrl.setText('')
         livrePanWin.coverImg.setStyleSheet('')
+    
+    def handleGroupLivreByChanged():
+        global groupLivreBy
+        groupLivreBy = windows.groupLivreByComboBox.currentText()
+        interface.afficherLivres(livres, windows, edit, groupLivreBy)
+
+    def handleAddEditLivre():
+        if(not livrePanWin.ref.isEnabled()):
+            livres.pop(livres.index(l.ajouter(livrePanWin.ref.text())))
+        livres.append(
+            l.ajouter(
+                livrePanWin.ref.text(),
+                livrePanWin.titre.text().lower(),
+                livrePanWin.nomAut.text().lower(),
+                livrePanWin.anneeEdition.text().replace('\u200f', ''),
+                livrePanWin.nbExemp.text(),
+                livrePanWin.categorie.currentText(),
+                livrePanWin.coverUrl.text()
+            )
+        )
+        interface.afficherLivres(livres, windows, edit, groupLivreBy)
+        livrePanWin.close()
+        windows.setEnabled(True)
 
     livrePanWin.setWindowFlags(livrePanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     setWindowBtnsState(livrePanWin, False)
     livrePanWin.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint, True)
-    livrePanWin.buttonBox.accepted.connect(lambda: (livres.append(
-                                                    l.ajouter(
-                                                        livrePanWin.ref.text(),
-                                                        livrePanWin.titre.text().lower(),
-                                                        livrePanWin.nomAut.text().lower(),
-                                                        livrePanWin.anneeEdition.text().replace('\u200f', ''),
-                                                        livrePanWin.nbExemp.text(),
-                                                        livrePanWin.categorie.currentText(),
-                                                        livrePanWin.coverUrl.text())
-                                                    ),
-                                                    interface.afficherLivres(livres, windows, edit),
-                                                    livrePanWin.close(),
-                                                    windows.setEnabled(True)
-                                                )
-                                            )
+    livrePanWin.buttonBox.accepted.connect(handleAddEditLivre)
     livrePanWin.buttonBox.rejected.connect(lambda: (livrePanWin.close(), windows.setEnabled(True)))
     livrePanWin.selectCoverBtn.clicked.connect(clicker)
+    windows.groupLivreByComboBox.currentIndexChanged.connect(handleGroupLivreByChanged)
     
     windows.ajouterLivreBtn.clicked.connect(lambda: (resetLivrePan(), openAddWindow(windows, livrePanWin)))
 
     
     windows.loadLivresBtn.clicked.connect(charger)
     windows.saveLivresBtn.clicked.connect(lambda: dbManager.enregistrer(livres, "livres"))
-    #charger()
+    charger()
 
 
 def loadTabEtudiants(windows):
@@ -118,12 +130,13 @@ def loadTabEtudiants(windows):
 
     windows.clearBtn.clicked.connect(lambda: windows.searchBar.setText(""))
     windows.searchBar.textChanged.connect(lambda: interface.afficherEtudiants(etudiants, windows, windows.searchBar.text()))
-    windows.delBtn.clicked.connect(lambda: (e.supprimer(windows.table.currentRow(), etudiants, windows),
+    windows.delBtn.clicked.connect(lambda: (e.supprimer(etudiants, windows),
                                             windows.table.setCurrentCell(-1, -1),
                                             interface.afficherEtudiants(etudiants, windows, ""),
                                             windows.searchBar.setText("")
                                             ))
     windows.addBtn.clicked.connect(lambda: openAddWindow(windows, etudPanWin))
+    windows.table.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table.itemSelectionChanged.connect(lambda: selectCurrentRow(windows))
     windows.table.doubleClicked.connect(lambda: openEditWindow(windows, etudPanWin))
     windows.loadBtn.clicked.connect(charger)
@@ -156,12 +169,33 @@ def loadTabEtudiants(windows):
 
 
 def connectNavBar(windows):
-    windows.action_Ajouter_tudiant_2.triggered.connect(lambda: openAddWindow(windows, etudPanWin))
+    def customDel(delFunction, critere: list):
+        global etudiants
+        if(critere == []):
+            interface.alert(msg="Il n'y a plus d'étudiants")
+            return
+        windows.top_aside.children()[3].click()
+        etudiants = delFunction(interface.askForItem(items=list(set(critere))), etudiants)
+        windows.table.setCurrentCell(-1, -1)
+        interface.afficherEtudiants(etudiants, windows, "")
+        windows.searchBar.setText("")
+    windows.action_Ajouter_tudiant_2.triggered.connect(lambda: (windows.top_aside.children()[3].click(), openAddWindow(windows, etudPanWin)))
+    windows.action_Suppression_tudiant_donn.triggered.connect(lambda: interface.alert(msg="Il n'y a plus d'étudiants") if etudiants == [] else (
+                                                    windows.top_aside.children()[3].click(),
+                                                    e.supprimerParNce(interface.askForItem(items=[etud.nce for etud in etudiants]), etudiants),
+                                                    windows.table.setCurrentCell(-1, -1),
+                                                    interface.afficherEtudiants(etudiants, windows, ""),
+                                                    windows.searchBar.setText("")
+                                                    ))
+    windows.action_Suppression_des_tudiants_d_une_section_donn_e.triggered.connect(lambda: customDel(e.supprimerParSection, [etud.section for etud in etudiants]))
+    windows.action_Suppression_des_tudiants_d_un_niveau_donn_e.triggered.connect(lambda: customDel(e.supprimerParNiveau, [etud.niveau for etud in etudiants]))
 
 aside.connectBtns(windows)
 loadTabLivres(windows)
 loadTabEtudiants(windows)
 
+
 connectNavBar(windows)
 windows.show()
+interface.test(etudiants)
 app.exec_()
