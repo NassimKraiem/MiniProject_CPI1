@@ -1,5 +1,8 @@
-import template
+from PyQt5 import QtCore
+from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QInputDialog
+import dbManager
+import template
 from objects import *
 from helper import *
 
@@ -55,6 +58,24 @@ def afficherLivres(livres, windows, edit, groupBy="Categorie"):
 
 
 
+def setWindowBtnsState(win, state):
+    win.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, state)
+    win.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, state)
+    win.setWindowFlag(QtCore.Qt.WindowMinimizeButtonHint, state)
+
+def previewEtudDBContent(window):
+    window.show()
+    etudiants = dbManager.charger("etudiants")
+    afficherEtudiants(etudiants, window)
+    print("nnnnnnnnnn")
+
+
+
+
+
+
+
+
 
 
 
@@ -95,8 +116,3 @@ def askForItem(msg="Selectionner:", title="Input Dialog", items=["test"]):
         return item
     else:
         return None
-
-def test(etudiants):
-    #askForItem(items=[etud.nce for etud in etudiants])
-    print("Done")
-    pass

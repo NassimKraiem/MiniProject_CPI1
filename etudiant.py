@@ -21,12 +21,12 @@ def supprimerParNce(nce, etudiants):
 
 def supprimerParSection(section, etudiants):
     if(section == None):
-        return []
+        raise "Aucune section n'est selectionner comme critere de suppression!"
     return list(filter(lambda x:x.section != section, etudiants))
 
 def supprimerParNiveau(niveau, etudiants):
     if(niveau == None):
-        return []
+        raise "Aucun niveau n'est selectionner comme critere de suppression!"
     return list(filter(lambda x:x.niveau != niveau, etudiants))
 
 def supprimer(etudiants, windows):

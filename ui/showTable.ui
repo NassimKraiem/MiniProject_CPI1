@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>638</width>
+    <height>378</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#centralwidget{
+	background-color: white /*rgb(21, 17, 17)*/;
+}
+QPushButton#cancelBtn:!disabled{
+	background-color: red;
+	color: white;
+	/*border: none;
+	padding: 5px 25px;*/
+}
+QPushButton#importBtn:!disabled{
+	background-color: green;
+	color: white;
+	/*border: none;
+	padding: 5px 25px;*/
+}
+
+#searchSection{
+	border-width: 10px;
+	border-style: solid;
+	border-color: #ccc;
+	border-radius: 10px;
+}
+#searchSection &gt; #comboBox{
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: black;
+	border-top-right-radius: 13px;
+	border-bottom-right-radius: 13px;
+}
+#searchSection &gt; #comboBox::drop-down{
+	background-color: black;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+#searchSection &gt; #comboBox::down-arrow{
+	border-style: solid;
+	border-width: 4px;
+	border-top-color : white;
+	margin: 5px 2px;
+}
+#searchSection &gt; #searchBar{
+	border-width: 1px 0px 1px 1px;
+	border-style: solid;
+	border-color: black;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	padding-left: 10px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="etudiants">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QWidget" name="searchSection" native="true">
+         <layout class="QHBoxLayout" name="searchSectionLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="searchBar">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox">
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>26</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>NCE</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Nom</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Section</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clearBtn">
+         <property name="text">
+          <string>clear</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="table">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="rowCount">
+        <number>0</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>Nom</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Prenom</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Date Naiss.</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Adresse</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Mail</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Tel.</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Section</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Niveau</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancelBtn">
+         <property name="text">
+          <string>Annuler</string>
+         </property>
+         <property name="col" stdset="0">
+          <string>red</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="importBtn">
+         <property name="text">
+          <string>Importer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

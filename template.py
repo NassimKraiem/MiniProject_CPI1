@@ -82,7 +82,7 @@ def createButton(l, edit, window):
 
 def getBody(livres, windows, edit, groupBy="Categorie"):
     res = []
-    livres = sorted(livres, key=lambda x:x.categorie)
+    livres = sorted(livres, key=lambda x:(x.categorie, x.reference))
     #cats = set([(i.categorie, *filter(lambda x: x.categorie == i.categorie, livres)) for i in livres])
 
     print(groupBy, end='|\n')
