@@ -35,8 +35,6 @@ def createButton(l, edit, window):
     livre.setFixedHeight(100)
     livre.setFixedWidth(90)
 
-
-
     lb = QLabel()
     initPressSupport(livre, lb, window, lambda: edit(l))
     lb.setProperty("selected", False)

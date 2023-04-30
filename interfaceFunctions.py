@@ -8,7 +8,7 @@ from helper import *
 
 def afficherEtudiants(etudiants, windows, query=""):
     if(empty(query)):
-        filtred = etudiants.copy();
+        filtred = etudiants.copy()
     else:
         filtred = list(filter(lambda x: query in x.nom, etudiants))
     
@@ -25,6 +25,24 @@ def afficherEtudiants(etudiants, windows, query=""):
         windows.table.setItem(i, 5, QTableWidgetItem(etudiant.telephone))
         windows.table.setItem(i, 6, QTableWidgetItem(etudiant.section))
         windows.table.setItem(i, 7, QTableWidgetItem(etudiant.niveau))
+
+
+def afficherEmprunts(emprunts, windows, query=""):
+    if(empty(query)):
+        filtred = emprunts.copy()
+    else:
+        filtred = list(filter(lambda x: query in x.nce, emprunts))
+    
+    windows.table_3.setRowCount(len(filtred))
+    for i, emprunt in enumerate(filtred):
+        #item = QTableWidgetItem()
+        #windows.table_3.setVerticalHeaderItem(i, item)
+        windows.table_3.setItem(i, 0, QTableWidgetItem(emprunt.nce))
+        windows.table_3.setItem(i, 1, QTableWidgetItem(emprunt.reference))
+        windows.table_3.setItem(i, 2, QTableWidgetItem(emprunt.dateEmprunt))
+        windows.table_3.setItem(i, 3, QTableWidgetItem(emprunt.dateRetour))
+        windows.table_3.setItem(i, 4, QTableWidgetItem(emprunt.nombreExemplaires))
+
         
 # def filterEtudiants(etudiants, windows):
 #     query = windows.searchBar.text()
@@ -96,6 +114,17 @@ def alert(msg="Warning", title="Warning MessageBox"):
     msgBox.setText(msg)
     msgBox.setWindowTitle(title)
     msgBox.setStandardButtons(QMessageBox.Ok)
+    msgBox.exec_()
+
+def confirm(msg="Are you sure?", title="Question MessageBox", successFunc = lambda: None, failFunc = lambda: None):
+    msgBox = QMessageBox()
+    msgBox.setIcon(QMessageBox.Question)
+    msgBox.setText(msg)
+    msgBox.setWindowTitle(title)
+    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    msgBox.setDefaultButton(QMessageBox.Ok)
+    msgBox.accepted.connect(successFunc)
+    msgBox.rejected.connect(failFunc)
     msgBox.exec_()
 
 def askForInt(msg="Donner n:", title="Input Dialog"):

@@ -54,10 +54,10 @@ class Emprunt:
             return NotImplemented
         return (
             self.nce == other.nce and
-            self.reference == other.reference and
-            self.dateEmprunt == other.dateEmprunt and
-            self.dateRetour == other.dateRetour and
-            self.nombreExemplaires == other.nombreExemplaires
+            self.reference == other.reference #and
+            # self.dateEmprunt == other.dateEmprunt and
+            # self.dateRetour == other.dateRetour and
+            # self.nombreExemplaires == other.nombreExemplaires
         )
     def __ne__(self, other):
         return not self.__eq__(other)
