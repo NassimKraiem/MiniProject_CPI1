@@ -54,11 +54,11 @@ def createButton(l: Livre, edit, window):
         }
         QLabel[outOfStock=true]{
             color: white;
-            background-color: red;
+            background-color: #e33e33;
         }
         QLabel[outOfStock=false]{
             color: white;
-            background-color: green;
+            background-color: #97b85d; /* #a8b56b */
         }
     """)
     lb.setMinimumHeight(20)
@@ -135,7 +135,19 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
         ligne.setContentsMargins(0,20,0,0)
 
         catTitleLabel = QLabel()
-        catTitleLabel.setText(f"<h2>{c}</h2>")
+        catTitleLabel.setText(f"<h2>{c.title()}</h2>")
+
+        catTitleLabel.enterEvent = lambda e, lb=catTitleLabel: print(f"enter {lb.text()[4:-5]}")
+        catTitleLabel.leaveEvent = lambda e: print("leave")
+
+        # self.hover_widget = QLabel('Hovered!')
+        # self.hover_widget.hide()
+
+        # def enterEvent(self, event):
+        #     self.hover_widget.show()
+
+        # def leaveEvent(self, event):
+        #     self.hover_widget.hide()
 
         scrollArea = QScrollArea()
         scrollArea.setObjectName(f'ligneLivres{c}')
