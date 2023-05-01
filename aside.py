@@ -1,13 +1,17 @@
 from PyQt5.QtWidgets import QPushButton
 import dbManager
 import interfaceFunctions as interface
+import shared_data
 
 resets = []
 
-def updateDB(livres, etudiants, emprunts):
-    dbManager.enregistrer(livres, "livres")
-    dbManager.enregistrer(etudiants, "etudiants")
-    dbManager.enregistrer(emprunts, "emprunts")
+def updateDB():
+    # print(shared_data.livres)
+    # print(shared_data.etudiants)
+    # print(shared_data.emprunts)
+    dbManager.enregistrer(shared_data.livres, "livres")
+    dbManager.enregistrer(shared_data.etudiants, "etudiants")
+    dbManager.enregistrer(shared_data.emprunts, "emprunts")
 
 def resetNavigation():
     for reset in resets:
@@ -22,15 +26,20 @@ def flipState(windows, w, state = None):
         index = top_aside.index(w)
         windows.tabWidget.setCurrentIndex(index)
 
-def handleTabChange(windows, w, livres, etudiants, emprunts):
-    interface.confirm(msg = "Changes will be saved when changing tab\nAre you sure?", successFunc = lambda: (resetNavigation(), flipState(windows, w, True), updateDB(livres, etudiants, emprunts)))
+def completeHandleTabChange(windows, w):
+    resetNavigation()
+    flipState(windows, w, True)
+    updateDB()
+
+def handleTabChange(windows, w):
+    interface.confirm(msg = "Changes will be saved when changing tab\nAre you sure?", successFunc = (lambda: completeHandleTabChange(windows, w)))
     #print(msgBox.clickedButton().text())
 
 
-def connectBtns(windows, livres, etudiants, emprunts):
+def connectBtns(windows):
     for widget in windows.top_aside.children():
         if (isinstance(widget, QPushButton) and widget.property('current') != None):
-            widget.clicked.connect(lambda _, w=widget: handleTabChange(windows, w, livres, etudiants, emprunts))
+            widget.clicked.connect(lambda _, w=widget: handleTabChange(windows, w))
             resets.append((lambda state, w=widget: flipState(windows, w, state)))
 
 """

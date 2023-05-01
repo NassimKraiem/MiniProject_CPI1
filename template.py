@@ -1,7 +1,7 @@
-from tkinter.tix import Tree
 import dbManager
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QScrollArea, QWidget, QSpacerItem, QSizePolicy
+from objects import *
 
 def initPressSupport(btn: QPushButton, label, window, lamEdit):
     btn.setAutoRepeat(True)
@@ -29,29 +29,44 @@ def handleClicked(btn: QPushButton, label, window, lamEdit):
         print('click')
         lamEdit()
 
-def createButton(l, edit, window):
+def createButton(l: Livre, edit, window):
     livre = QPushButton()
     livre.setObjectName(l.reference)
     livre.setFixedHeight(100)
     livre.setFixedWidth(90)
 
     lb = QLabel()
+    lb.setWordWrap(True)
     initPressSupport(livre, lb, window, lambda: edit(l))
     lb.setProperty("selected", False)
+    lb.setProperty("outOfStock", (int(l.nombreExemplaires) <= 0))
     lb.setAlignment(QtCore.Qt.AlignCenter)
+    #font-size: 12px
+    #print("font-size:",str(12-((len(l.titre)-12)/2 if len(l.titre)>12 else 0)), l.titre)
     lb.setStyleSheet("""
-    QLabel{
-        color: black; background-color: #e1e1e2; font-size: 12px;
-    }
-    QLabel[selected=true]{
-        border-style: solid;
-        border-width: 3px;
-        border-color: #264653;
-    }
+        QLabel{
+            color: black; background-color: #e1e1e2; font-size: 12px;
+        }
+        QLabel[selected=true]{
+            border-style: solid;
+            border-width: 4px;
+            border-color: black;
+        }
+        QLabel[outOfStock=true]{
+            color: white;
+            background-color: red;
+        }
+        QLabel[outOfStock=false]{
+            color: white;
+            background-color: green;
+        }
     """)
-    lb.setFixedHeight(20)
+    lb.setMinimumHeight(20)
     lb.setFixedWidth(90)
-    lb.setText(l.reference) #l.titre
+    if(window.critereRechLivre.currentText() == "Ref"):
+        lb.setText(l.reference)
+    else:
+        lb.setText(l.titre[:16].title() + ("..." if len(l.titre)>16 else "")) #l.titre
     #lb.setWordWrap(True)
 
     stylesheet = """
@@ -103,7 +118,7 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
         QScrollArea{
             background-color: transparent;
             border-style: solid;
-            border-width: 1px 0px;
+            border-width: 1px 0px 0px 0px;
             border-color: #e1e1e1;
         }
         #livres{
@@ -124,12 +139,13 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
 
         scrollArea = QScrollArea()
         scrollArea.setObjectName(f'ligneLivres{c}')
-        scrollArea.setMinimumHeight(165)
-        scrollArea.setMaximumHeight(165)
-        #scrollArea.setFixedHeight(165)
+        scrollArea.setMinimumHeight(175)
+        scrollArea.setMaximumHeight(175)
+        #scrollArea.setFixedHeight(175)
         scrollArea.setWidgetResizable(True)
         scrollArea.setStyleSheet(stylesheet)
         scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
 
         ligne.addWidget(catTitleLabel)

@@ -1,6 +1,6 @@
 from PyQt5 import QtCore
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QInputDialog
+from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QInputDialog, QSpacerItem, QSizePolicy
 import dbManager
 import template
 from objects import *
@@ -31,7 +31,7 @@ def afficherEmprunts(emprunts, windows, query=""):
     if(empty(query)):
         filtred = emprunts.copy()
     else:
-        filtred = list(filter(lambda x: query in x.nce, emprunts))
+        filtred = list(filter(lambda x: query.lower() in x.nce, emprunts))
     
     windows.table_3.setRowCount(len(filtred))
     for i, emprunt in enumerate(filtred):
@@ -51,20 +51,43 @@ def afficherEmprunts(emprunts, windows, query=""):
 
 
 
+# def clearLayout(layout):
+#     while layout.count():
+#         child = layout.takeAt(0).widget().deleteLater()
+
 def clearLayout(layout):
     while layout.count():
-        child = layout.takeAt(0).widget().deleteLater()
+        item = layout.takeAt(0)
+        widget = item.widget()
+        if widget:
+            widget.deleteLater()
+        else:
+            spacer_item = item.spacerItem()
+            if spacer_item:
+                layout.removeItem(spacer_item)
 
-def afficherLivres(livres, windows, edit, groupBy="Categorie"):
+def afficherLivres(livres, windows, edit, groupBy="Categorie", query="", critere="Titre"):
     # print('-'*30)
     # print(*sorted(livres, key=lambda x:x.categorie), sep="\n")
     # print('-'*30)
 
     clearLayout(windows.scrollAreaContent.layout())
 
-    lignes = template.getBody(livres, windows, edit, groupBy)
+    if(empty(query)):
+        filtred = livres.copy()
+    else:
+        if(critere=="Titre"):
+            filtred = list(filter(lambda x: query.lower() in x.titre, livres))
+        elif(critere=="Ref"):
+            filtred = list(filter(lambda x: query.lower() in x.reference, livres))
+        else:
+            raise "Critere de recherce doit etre 'Titre' ou 'Ref'!"
+
+    lignes = template.getBody(filtred, windows, edit, groupBy)
     for ligne in lignes:
         windows.scrollAreaContent.layout().addWidget(ligne)
+    spacer = QSpacerItem(20, 1000, QSizePolicy.Minimum, QSizePolicy.Expanding)
+    windows.scrollAreaContent.layout().addItem(spacer)
 
 
 
@@ -85,7 +108,6 @@ def previewEtudDBContent(window):
     window.show()
     etudiants = dbManager.charger("etudiants")
     afficherEtudiants(etudiants, window)
-    print("nnnnnnnnnn")
 
 
 
@@ -123,7 +145,7 @@ def confirm(msg="Are you sure?", title="Question MessageBox", successFunc = lamb
     msgBox.setWindowTitle(title)
     msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
     msgBox.setDefaultButton(QMessageBox.Ok)
-    msgBox.accepted.connect(successFunc)
+    msgBox.accepted.connect(lambda: successFunc())
     msgBox.rejected.connect(failFunc)
     msgBox.exec_()
 

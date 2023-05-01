@@ -1,4 +1,18 @@
-R205,test,,2000,1,Classique,/home/nassim/Git/MiniProject_CPI1/img/Life of Pi.jpg
-R137,test,,2000,1,Détective et Mystère,/home/nassim/Git/MiniProject_CPI1/img/The Three Musketeers.jpg
-R100,life of pi,yann martel,2003,2,Action et Aventure,/home/nassim/Git/MiniProject_CPI1/img/Life of Pi.jpg
-R101,the three musketeers,alexandre dumas,2014,15,Action et Aventure,/home/nassim/Git/MiniProject_CPI1/img/The Three Musketeers.jpg
+R100,life of pi,yann martel,2003,2,Action et Aventure,./img/Life of Pi.jpg
+R101,the three musketeers,alexandre dumas,2014,15,Action et Aventure,./img/The Three Musketeers.jpg
+R207,no planb a jack reacher novel,leeandrew child,2022,5,Action et Aventure,./img/No Plan B: A Jack Reacher Novel.jpg
+R208,to kill a mockingbird,harper lee,2002,4,Classique,./img/To Kill a Mockingbird.jpg
+R209,little women,louisamay alcott,2018,7,Classique,./img/Little Women.jpg
+R243,the night fire,michael connelly,2019,4,Détective et Mystère,./img/The Night Fire.jpg
+R215,beloved,toni morrison,2004,4,Classique,./img/Vintage Beloved.jpg
+R312,and then there were none,agatha christie,2011,6,Détective et Mystère,./img/And Then There Were None.jpg
+R313,murder on the orient express,agatha christie,2011,10,Détective et Mystère,./img/Murder on the Orient Express.jpg
+R325,the big sleep,raymond chandler,1988,4,Détective et Mystère,./img/The Big Sleep.jpg
+R375,gone girl,gillian flynn,2014,2,Détective et Mystère,./img/Gone Girl.jpg
+R376,the postman always rings twice,james m cain,1989,7,Détective et Mystère,./img/The Postman Always Rings Twice.jpg
+R377,in cold blood,truman capote,1994,8,Détective et Mystère,./img/In Cold Blood.jpg
+R112,the ancient nine,lan k smith,1988,4,Action et Aventure,./img/The Ancient Nine.jpg
+R217,coastal pursuit,j d dudycha,2000,14,Action et Aventure,./img/Coastal Pursuit.jpg
+R218,gale force,owen laukkanen,2019,3,Action et Aventure,./img/Gale Force.jpg
+R219,the white road,sarah lotz,2015,7,Action et Aventure,./img/The White Road.jpg
+R205,the call of the wild,jack london,1903,0,Action et Aventure,./img/The Call of the Wild.jpg

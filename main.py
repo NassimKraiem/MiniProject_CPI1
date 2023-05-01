@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import os
 #from connects import openAddWindow
 import aside
 import dbManager
@@ -8,10 +9,14 @@ import livre as l
 import interfaceFunctions as interface
 from PyQt5 import QtCore
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication, QFileDialog, QComboBox
+from PyQt5.QtWidgets import QApplication, QFileDialog, QPushButton
 from connects import *
 from helper import *
 from objects import Emprunt, Etudiant, Livre
+import shared_data
+
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+
 groupLivreBy = "Categorie"
 
 app = QApplication([])
@@ -26,39 +31,37 @@ empPanWin = loadUi("ui/empruntPanel.ui")
 
 tableWindow = loadUi("ui/showTable.ui")
 
-etudiants = dbManager.charger("etudiants")
-interface.afficherEtudiants(etudiants, windows)
+shared_data.etudiants = dbManager.charger("etudiants")
+interface.afficherEtudiants(shared_data.etudiants, windows)
 
-emprunts = dbManager.chargerEmp("emprunts")
-interface.afficherEmprunts(emprunts, windows)
+shared_data.emprunts = dbManager.chargerEmp("emprunts")
+interface.afficherEmprunts(shared_data.emprunts, windows)
 
-# livres = dbManager.chargerLivre("livres")
-# interface.afficherLivres(livres, windows, edit, groupLivreBy)
-livres = []
+# shared_data.livres = dbManager.chargerLivre("livres")
+# interface.afficherLivres(livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText())
 
 def loadTabLivres(windows):
-    global etudiants
     global livrePanWin
-    
+    global groupLivreBy
     def charger():
-        global livres
-        livres = dbManager.chargerLivre("livres")
-        interface.afficherLivres(livres, windows, edit, groupLivreBy)
+        shared_data.livres = dbManager.chargerLivre("livres")
+        interface.afficherLivres(shared_data.livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText())
 
     def clicker():
         livrePanWin.hide()
         fname = QFileDialog.getOpenFileName(windows, "Select book Cover", "", "Image Files (*.png, *jpg)")
         if(fname):
-            livrePanWin.coverUrl.setText(fname[0])
-            livrePanWin.coverImg.setStyleSheet(f"border-image : url({fname[0]}) 0 0 0 0 stretch stretch;")
+            link = fname[0].replace(BASE_DIR, ".")
+            livrePanWin.coverUrl.setText(link)
+            livrePanWin.coverImg.setStyleSheet(f"border-image : url({link}) 0 0 0 0 stretch stretch;")
             livrePanWin.show()
     
     def edit(livre: Livre):
         livrePanWin.ref.setValue(int(livre.reference[1:]))
         livrePanWin.ref.setDisabled(True)
-        livrePanWin.titre.setText(livre.titre)
+        livrePanWin.titre.setText(livre.titre.title())
         livrePanWin.titre.setDisabled(True)
-        livrePanWin.nomAut.setText(livre.npAuteur)
+        livrePanWin.nomAut.setText(livre.npAuteur.title())
         livrePanWin.nomAut.setDisabled(True)
         livrePanWin.anneeEdition.setValue(int(livre.anneeEdition))
         livrePanWin.anneeEdition.setDisabled(True)
@@ -88,20 +91,20 @@ def loadTabLivres(windows):
     def handleGroupLivreByChanged():
         global groupLivreBy
         groupLivreBy = windows.groupLivreByComboBox.currentText()
-        interface.afficherLivres(livres, windows, edit, groupLivreBy)
+        interface.afficherLivres(shared_data.livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText())
 
     def handleAddEditLivre():
-        if(dbManager.existe(livrePanWin.ref.text(), livres, l)):
+        if(livrePanWin.ref.isEnabled() and dbManager.existe(livrePanWin.ref.text(), shared_data.livres, l)):
             interface.alert("Livre existant!")
         elif(empty(livrePanWin.ref.text())):
             interface.alert("Remplir Ref!")
         elif(empty(livrePanWin.titre.text().strip())):
             interface.alert("Remplir le titre du livre!")
-        elif(not "".join(livrePanWin.titre.text().strip().split(maxsplit=1)).isalpha()):
+        elif(not "".join(livrePanWin.titre.text().strip().split()).isalpha()):
             interface.alert("Le titre ne doit contenir que des lettres!")
         elif(empty(livrePanWin.nomAut.text().strip())):
             interface.alert("Remplir le nom de l'auteur!")
-        elif(not "".join(livrePanWin.nomAut.text().strip().split(maxsplit=1)).isalpha()):
+        elif(not "".join(livrePanWin.nomAut.text().strip().split(maxsplit=2)).isalpha()):
             interface.alert("Le nom de l'auteur ne doit contenir que des lettres!")
         # elif(empty(livrePanWin.anneeEdition.text().replace('\u200f', ''))):
         #     interface.alert("Selectionner la date de naissance de l'etudiant!")
@@ -115,8 +118,8 @@ def loadTabLivres(windows):
             interface.alert("Selectionner une image de couverture pour le livre!")
         else:
             if(not livrePanWin.ref.isEnabled()):
-                livres.pop(livres.index(l.ajouter(livrePanWin.ref.text())))
-            livres.append(
+                shared_data.livres.pop(shared_data.livres.index(l.ajouter(livrePanWin.ref.text())))
+            shared_data.livres.append(
                 l.ajouter(
                     livrePanWin.ref.text(),
                     livrePanWin.titre.text().lower(),
@@ -127,9 +130,25 @@ def loadTabLivres(windows):
                     livrePanWin.coverUrl.text()
                 )
             )
-            interface.afficherLivres(livres, windows, edit, groupLivreBy)
+            interface.afficherLivres(shared_data.livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText())
             livrePanWin.close()
             windows.setEnabled(True)
+
+    def handleDeleteSelectedBooks():
+        layout = windows.scrollAreaContent.layout()
+        for i in range(layout.count()-1):
+            items = layout.itemAt(i).widget().layout().itemAt(1).widget().widget().layout()
+            for j in range(items.count()-1):
+                ref = items.itemAt(j).widget().layout().itemAt(0).widget().objectName()
+                widget = items.itemAt(j).widget().layout().itemAt(1).widget()
+                if isinstance(widget, QtWidgets.QLabel):
+                    #print("Label:", widget.text())
+                    if(widget.property("selected")):
+                        if(len(list(filter(lambda x: x.reference == ref, shared_data.emprunts))) > 0):
+                            interface.alert(f"Impossible de supprimer le livre \"{shared_data.livres[shared_data.livres.index(l.ajouter(ref))].titre}\"! (emprunté)")
+                        else:
+                            shared_data.livres.pop(shared_data.livres.index(l.ajouter(ref)))
+        interface.afficherLivres(shared_data.livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText())
 
     livrePanWin.setWindowFlags(livrePanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     interface.setWindowBtnsState(livrePanWin, False)
@@ -138,17 +157,20 @@ def loadTabLivres(windows):
     livrePanWin.buttonBox.rejected.connect(lambda: (livrePanWin.close(), windows.setEnabled(True)))
     livrePanWin.selectCoverBtn.clicked.connect(clicker)
     windows.groupLivreByComboBox.currentIndexChanged.connect(handleGroupLivreByChanged)
+    windows.searchBar_2.textChanged.connect(lambda: interface.afficherLivres(shared_data.livres, windows, edit, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText()))
+    windows.critereRechLivre.currentIndexChanged.connect(lambda: interface.afficherLivres(shared_data.livres, windows, edit, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText()))
     
     windows.ajouterLivreBtn.clicked.connect(lambda: (resetLivrePan(), openAddWindow(windows, livrePanWin)))
+    windows.suppLivreBtn.clicked.connect(handleDeleteSelectedBooks)
 
+    windows.tabWidget.currentChanged.connect(lambda index: (print(index), interface.afficherLivres(shared_data.livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText()) if index == 0 else None))
     
     windows.loadLivresBtn.clicked.connect(charger)
-    windows.saveLivresBtn.clicked.connect(lambda: dbManager.enregistrer(livres, "livres"))
+    windows.saveLivresBtn.clicked.connect(lambda: dbManager.enregistrer(shared_data.livres, "livres"))
     charger()
 
 
 def loadTabEtudiants(windows):
-    global etudiants
     global etudPanWin
 
     niv = {
@@ -161,22 +183,21 @@ def loadTabEtudiants(windows):
     }
 
     def charger():
-        global etudiants
-        etudiants = dbManager.charger("etudiants")
-        interface.afficherEtudiants(etudiants, windows)
+        shared_data.etudiants = dbManager.charger("etudiants")
+        interface.afficherEtudiants(shared_data.etudiants, windows)
     
     def handleAjouterModifierEtudiant():
-        if(dbManager.existe(etudPanWin.nce.text(), etudiants, e)):
+        if(dbManager.existe(etudPanWin.nce.text(), shared_data.etudiants, e)):
             interface.alert("Etudiant existant!")
         elif(empty(etudPanWin.nce.text())):
             interface.alert("Remplir NCE!")
         elif(empty(etudPanWin.nom.text().strip())):
             interface.alert("Remplir le nom de l'etudiant!")
-        elif(not "".join(etudPanWin.nom.text().strip().split(maxsplit=1)).isalpha()):
+        elif(not "".join(etudPanWin.nom.text().strip().split(maxsplit=2)).isalpha()):
             interface.alert("Le nom ne doit contenir que des lettres!")
         elif(empty(etudPanWin.prenom.text().strip())):
             interface.alert("Remplir le prenom de l'etudiant!")
-        elif(not "".join(etudPanWin.prenom.text().strip().split(maxsplit=1)).isalpha()):
+        elif(not "".join(etudPanWin.prenom.text().strip().split(maxsplit=2)).isalpha()):
             interface.alert("Le prenom ne doit contenir que des lettres!")
         # elif(empty(etudPanWin.dateN.text().replace('\u200f', ''))):
         #     interface.alert("Selectionner la date de naissance de l'etudiant!")
@@ -196,8 +217,8 @@ def loadTabEtudiants(windows):
             interface.alert("Selectionner le niveau de l'etudiant!")
         else:
             if(not etudPanWin.nce.isEnabled()):
-                etudiants.pop(etudiants.index(e.ajouter(etudPanWin.nce.text())))
-            etudiants.append(
+                shared_data.etudiants.pop(shared_data.etudiants.index(e.ajouter(etudPanWin.nce.text())))
+            shared_data.etudiants.append(
                 e.ajouter(
                     etudPanWin.nce.text().strip(),
                     etudPanWin.nom.text().lower().strip(),
@@ -209,16 +230,16 @@ def loadTabEtudiants(windows):
                     etudPanWin.section.currentText(),
                     etudPanWin.niveau.currentText())
                 )
-            interface.afficherEtudiants(etudiants, windows),
+            interface.afficherEtudiants(shared_data.etudiants, windows),
             etudPanWin.close(),
             windows.setEnabled(True)
     
     def edit(etudiant: Etudiant):
         etudPanWin.nce.setValue(int(etudiant.nce))
         etudPanWin.nce.setDisabled(True)
-        etudPanWin.nom.setText(etudiant.nom)
+        etudPanWin.nom.setText(etudiant.nom.title())
         etudPanWin.nom.setDisabled(True)
-        etudPanWin.prenom.setText(etudiant.prenom)
+        etudPanWin.prenom.setText(etudiant.prenom.title())
         etudPanWin.prenom.setDisabled(True)
         #print(QtCore.QDate.fromString(etudiant.dateN, "d/M/yyyy").getDate())
         etudPanWin.dateN.setDate(QtCore.QDate.fromString(etudiant.dateN, "d/M/yyyy"))
@@ -251,18 +272,18 @@ def loadTabEtudiants(windows):
             etudPanWin.niveau.addItem(i)
 
     windows.clearBtn.clicked.connect(lambda: windows.searchBar.setText(""))
-    windows.searchBar.textChanged.connect(lambda: interface.afficherEtudiants(etudiants, windows, windows.searchBar.text()))
-    windows.delBtn.clicked.connect(lambda: (e.supprimer(etudiants, windows),
+    windows.searchBar.textChanged.connect(lambda: interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()))
+    windows.delBtn.clicked.connect(lambda: (e.supprimer(shared_data.etudiants, windows),
                                             windows.table.setCurrentCell(-1, -1),
-                                            interface.afficherEtudiants(etudiants, windows, ""),
+                                            interface.afficherEtudiants(shared_data.etudiants, windows, ""),
                                             windows.searchBar.setText("")
                                             ))
     windows.addBtn.clicked.connect(lambda: (resetEtudPan(), openAddWindow(windows, etudPanWin)))
     windows.table.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table.itemSelectionChanged.connect(lambda: selectCurrentRow(windows))
-    windows.table.doubleClicked.connect(lambda: (openEditWindow(windows, etudPanWin), edit(etudiants[windows.table.currentRow()])))
+    windows.table.doubleClicked.connect(lambda: (openEditWindow(windows, etudPanWin), edit(shared_data.etudiants[windows.table.currentRow()])))
     windows.loadBtn.clicked.connect(charger)
-    windows.saveBtn.clicked.connect(lambda: dbManager.enregistrer(etudiants, "etudiants"))
+    windows.saveBtn.clicked.connect(lambda: dbManager.enregistrer(shared_data.etudiants, "etudiants"))
 
     etudPanWin.setWindowFlags(etudPanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     interface.setWindowBtnsState(etudPanWin, False)
@@ -277,33 +298,29 @@ def loadTabEtudiants(windows):
 
 
 def loadTabEmprunts(windows):
-    global emprunts
-    global etudiants
-    global livres
     global empPanWin
 
     def charger():
-        global emprunts
-        emprunts = dbManager.chargerEmp("emprunts")
-        interface.afficherEmprunts(emprunts, windows)
+        shared_data.emprunts = dbManager.chargerEmp("emprunts")
+        interface.afficherEmprunts(shared_data.emprunts, windows)
     
     def handleAjouterModifierEmprunt():
         if(empty(empPanWin.nce.currentText())):
             interface.alert("Selectionner NCE!")
         elif(empty(empPanWin.reference.currentText())):
             interface.alert("Selectionner reference du livre!")
-        elif(empPanWin.nce.isEnabled() and emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText()) in emprunts):
+        elif(empPanWin.nce.isEnabled() and emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText()) in shared_data.emprunts):
             interface.alert("Cet étudiant a déja emprunté ce livre!")
-        elif(e.ajouter(empPanWin.nce.currentText()) not in etudiants):
+        elif(e.ajouter(empPanWin.nce.currentText()) not in shared_data.etudiants):
             interface.alert("NCE n'existe pas!")
-        elif(l.ajouter(empPanWin.reference.currentText()) not in livres):
+        elif(l.ajouter(empPanWin.reference.currentText()) not in shared_data.livres):
             interface.alert("Réference n'existe pas!")
         else:
-            borrowedBook = list(filter(lambda x: x.reference == empPanWin.reference.currentText(), livres))[0]
+            borrowedBook = list(filter(lambda x: x.reference == empPanWin.reference.currentText(), shared_data.livres))[0]
 
             if(not empPanWin.nce.isEnabled()):
-                bookInstanceIndex = emprunts.index(emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText()))
-                nouvNbrExemplaire = str(int(borrowedBook.nombreExemplaires) - int(empPanWin.nombreExemplaires.text()) + int(emprunts[bookInstanceIndex].nombreExemplaires))
+                bookInstanceIndex = shared_data.emprunts.index(emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText()))
+                nouvNbrExemplaire = str(int(borrowedBook.nombreExemplaires) - int(empPanWin.nombreExemplaires.text()) + int(shared_data.emprunts[bookInstanceIndex].nombreExemplaires))
             else:
                 nouvNbrExemplaire = str(int(borrowedBook.nombreExemplaires) - int(empPanWin.nombreExemplaires.text()))
             
@@ -312,18 +329,19 @@ def loadTabEmprunts(windows):
                 interface.alert("Nombre d'exemplaires insuffisant!")
             else:
                 if (not empPanWin.nce.isEnabled()):
-                    emprunts.pop(bookInstanceIndex)
+                    shared_data.emprunts.pop(bookInstanceIndex)
             
                 borrowedBook.nombreExemplaires = nouvNbrExemplaire
-                emprunts.append(
+                shared_data.emprunts.append(
                     emp.ajouter(
                         empPanWin.nce.currentText().strip(),
                         empPanWin.reference.currentText(),
                         empPanWin.dateEmprunt.text().replace('\u200f', ''),
                         empPanWin.dateRetour.text().replace('\u200f', ''),
-                        empPanWin.nombreExemplaires.text())
+                        empPanWin.nombreExemplaires.text()
                     )
-                interface.afficherEmprunts(emprunts, windows),
+                )
+                interface.afficherEmprunts(shared_data.emprunts, windows),
                 empPanWin.close(),
                 windows.setEnabled(True)
 
@@ -336,8 +354,8 @@ def loadTabEmprunts(windows):
             comboBox.addItem(i)
     
     def edit(emprunt: Emprunt):
-        fillComboBox(empPanWin.nce, [x.nce for x in etudiants])
-        fillComboBox(empPanWin.reference, [x.reference for x in livres])
+        fillComboBox(empPanWin.nce, [x.nce for x in shared_data.etudiants])
+        fillComboBox(empPanWin.reference, [x.reference for x in shared_data.livres])
 
         nceIndex = empPanWin.nce.findText(emprunt.nce, QtCore.Qt.MatchFixedString)
         empPanWin.nce.setCurrentIndex(nceIndex)
@@ -369,18 +387,18 @@ def loadTabEmprunts(windows):
         empPanWin.nombreExemplaires.setValue(1)
 
     windows.clearBtn_3.clicked.connect(lambda: windows.searchBar_3.setText(""))
-    windows.searchBar_3.textChanged.connect(lambda: interface.afficherEmprunts(emprunts, windows, windows.searchBar_3.text()))
-    windows.delBtn_3.clicked.connect(lambda: (emp.supprimer(emprunts, windows, livres),
+    windows.searchBar_3.textChanged.connect(lambda: interface.afficherEmprunts(shared_data.emprunts, windows, windows.searchBar_3.text()))
+    windows.delBtn_3.clicked.connect(lambda: (emp.supprimer(shared_data.emprunts, windows, shared_data.livres),
                                             windows.table_3.setCurrentCell(-1, -1),
-                                            interface.afficherEmprunts(emprunts, windows, ""),
+                                            interface.afficherEmprunts(shared_data.emprunts, windows, ""),
                                             windows.searchBar_3.setText("")
                                             ))
-    windows.addBtn_3.clicked.connect(lambda: (resetEmpPan(), openAddWindow(windows, empPanWin), fillComboBox(empPanWin.nce, [x.nce for x in etudiants]), fillComboBox(empPanWin.reference, [x.reference for x in livres])))
+    windows.addBtn_3.clicked.connect(lambda: (resetEmpPan(), openAddWindow(windows, empPanWin), fillComboBox(empPanWin.nce, [x.nce for x in shared_data.etudiants]), fillComboBox(empPanWin.reference, [x.reference for x in shared_data.livres])))
     windows.table_3.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table_3.itemSelectionChanged.connect(lambda: selectCurrentRowEmp(windows))
-    windows.table_3.doubleClicked.connect(lambda: (openEditWindow(windows, empPanWin), edit(emprunts[windows.table_3.currentRow()])))
+    windows.table_3.doubleClicked.connect(lambda: (openEditWindow(windows, empPanWin), edit(shared_data.emprunts[windows.table_3.currentRow()])))
     windows.loadBtn_3.clicked.connect(charger)
-    windows.saveBtn_3.clicked.connect(lambda: dbManager.enregistrer(emprunts, "emprunts"))
+    windows.saveBtn_3.clicked.connect(lambda: dbManager.enregistrer(shared_data.emprunts, "emprunts"))
 
     empPanWin.setWindowFlags(empPanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     interface.setWindowBtnsState(empPanWin, False)
@@ -401,28 +419,27 @@ def loadTabEmprunts(windows):
 
 def connectNavBar(windows):
     def customDel(delFunction, critere: list):
-        global etudiants
         if(critere == []):
             interface.alert(msg="Il n'y a plus d'étudiants")
             return
         windows.top_aside.children()[3].click()
         selectedCritere = interface.askForItem(items=list(set(critere)))
         if(selectedCritere != None):
-            etudiants = delFunction(selectedCritere, etudiants)
+            shared_data.etudiants = delFunction(selectedCritere, shared_data.etudiants)
             windows.table.setCurrentCell(-1, -1)
-            interface.afficherEtudiants(etudiants, windows, "")
+            interface.afficherEtudiants(shared_data.etudiants, windows, "")
             windows.searchBar.setText("")
 
     windows.action_Ajouter_tudiant_2.triggered.connect(lambda: (windows.top_aside.children()[3].click(), openAddWindow(windows, etudPanWin)))
-    windows.action_Suppression_tudiant_donn.triggered.connect(lambda: interface.alert(msg="Il n'y a plus d'étudiants") if etudiants == [] else (
+    windows.action_Suppression_tudiant_donn.triggered.connect(lambda: interface.alert(msg="Il n'y a plus d'étudiants") if shared_data.etudiants == [] else (
                                                     windows.top_aside.children()[3].click(),
-                                                    e.supprimerParNce(interface.askForItem(items=[etud.nce for etud in etudiants]), etudiants),
+                                                    e.supprimerParNce(interface.askForItem(items=[etud.nce for etud in shared_data.etudiants]), shared_data.etudiants),
                                                     windows.table.setCurrentCell(-1, -1),
-                                                    interface.afficherEtudiants(etudiants, windows, ""),
+                                                    interface.afficherEtudiants(shared_data.etudiants, windows, ""),
                                                     windows.searchBar.setText("")
                                                     ))
-    windows.action_Suppression_des_tudiants_d_une_section_donn_e.triggered.connect(lambda: customDel(e.supprimerParSection, [etud.section for etud in etudiants]))
-    windows.action_Suppression_des_tudiants_d_un_niveau_donn_e.triggered.connect(lambda: customDel(e.supprimerParNiveau, [etud.niveau for etud in etudiants]))
+    windows.action_Suppression_des_tudiants_d_une_section_donn_e.triggered.connect(lambda: customDel(e.supprimerParSection, [etud.section for etud in shared_data.etudiants]))
+    windows.action_Suppression_des_tudiants_d_un_niveau_donn_e.triggered.connect(lambda: customDel(e.supprimerParNiveau, [etud.niveau for etud in shared_data.etudiants]))
     #suppression etudiants par niveau et section .
 
     tableWindow.setWindowFlags(tableWindow.windowFlags() | QtCore.Qt.CustomizeWindowHint)
@@ -442,7 +459,7 @@ def connectNavBar(windows):
 loadTabLivres(windows)
 loadTabEtudiants(windows)
 loadTabEmprunts(windows)
-aside.connectBtns(windows, livres, etudiants, emprunts)
+aside.connectBtns(windows)
 
 
 connectNavBar(windows)
