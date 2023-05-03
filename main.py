@@ -73,6 +73,8 @@ def loadTabLivres(windows):
         livrePanWin.coverImg.setStyleSheet(f"border-image : url({livre.couverture}) 0 0 0 0 stretch stretch;")
         livrePanWin.show()
 
+    shared_data.editLivreFunc = edit
+
     def resetLivrePan():
         livrePanWin.ref.setValue(0)
         livrePanWin.ref.setDisabled(False)
@@ -157,7 +159,7 @@ def loadTabLivres(windows):
     livrePanWin.buttonBox.rejected.connect(lambda: (livrePanWin.close(), windows.setEnabled(True)))
     livrePanWin.selectCoverBtn.clicked.connect(clicker)
     windows.groupLivreByComboBox.currentIndexChanged.connect(handleGroupLivreByChanged)
-    windows.searchBar_2.textChanged.connect(lambda: interface.afficherLivres(shared_data.livres, windows, edit, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText()))
+    windows.searchBar_2.textChanged.connect(lambda: interface.afficherLivres(shared_data.livres, windows, edit, groupLivreBy, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText()))
     windows.critereRechLivre.currentIndexChanged.connect(lambda: interface.afficherLivres(shared_data.livres, windows, edit, query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText()))
     
     windows.ajouterLivreBtn.clicked.connect(lambda: (resetLivrePan(), openAddWindow(windows, livrePanWin)))

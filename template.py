@@ -2,6 +2,8 @@ import dbManager
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QScrollArea, QWidget, QSpacerItem, QSizePolicy
 from objects import *
+import interfaceFunctions as interface
+import shared_data
 
 def initPressSupport(btn: QPushButton, label, window, lamEdit):
     btn.setAutoRepeat(True)
@@ -97,12 +99,27 @@ def handleHover(windows, lb, delBtn, hidden):
     #print(f"{lb.text()[4:-5]}")
     delBtn.setHidden(hidden)
 
+def handleDeleteByGroup(windows, lb, groupBy):
+    if(groupBy=="Categorie"):
+        shared_data.livres = list(filter(lambda x: x.categorie.title() != lb.text()[4:-5], shared_data.livres))
+        for x in shared_data.livres:
+            print(x.categorie, lb.text()[4:-5])
+    elif(groupBy=="Auteur"):
+        shared_data.livres = list(filter(lambda x: x.npAuteur.title() != lb.text()[4:-5], shared_data.livres))
+    elif(groupBy=="Annee"):
+        shared_data.livres = list(filter(lambda x: x.anneeEdition.title() != lb.text()[4:-5], shared_data.livres))
+    else:
+        raise Exception("Unknown Category!")
+    
+    interface.afficherLivres(shared_data.livres, windows, shared_data.editLivreFunc, groupBy,  query=windows.searchBar_2.text(), critere=windows.critereRechLivre.currentText())
+    print("Afficher!")
+
 def getBody(livres, windows, edit, groupBy="Categorie"):
     res = []
     livres = sorted(livres, key=lambda x:(x.categorie, x.reference))
     #cats = set([(i.categorie, *filter(lambda x: x.categorie == i.categorie, livres)) for i in livres])
 
-    print(groupBy, end='|\n')
+    #print(groupBy, end='|\n')
     if(groupBy=="Categorie"):
         cats = sorted(set([i.categorie for i in livres]))
         livresDesCats = [list(filter(lambda x: x.categorie==cat, livres)) for cat in cats]
@@ -113,7 +130,7 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
         cats = sorted(set([i.anneeEdition for i in livres]))
         livresDesCats = [list(filter(lambda x: x.anneeEdition==cat, livres)) for cat in cats]
     else:
-        raise "Unknown Category!"
+        raise Exception("Unknown Category!")
 
     dict = zip(livresDesCats, cats)
     #print(cats)
@@ -142,16 +159,25 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
         titleLbLayout.setContentsMargins(0,0,0,0)
         titleLb = QWidget()
 
+        catTitleLabel = QLabel()
+        catTitleLabel.setText(f"<h2>{c.title()}</h2>")
+
         delBtn = QPushButton()
         delBtn.setObjectName("delBtn")
         delBtn.setText("X")
         delBtn.setFixedSize(20, 20)
-        delBtn.clicked.connect(lambda: print("delete"))
+        delBtn.clicked.connect(lambda _, lb=catTitleLabel: handleDeleteByGroup(windows, lb, groupBy))
+        delBtn.setStyleSheet("""
+            QPushButton{
+                color: red;
+            }
+            QPushButton:pressed{
+                color: white;
+            }
+        """)
+        delBtn.setFlat(True)
         delBtn.setHidden(True)
         
-        catTitleLabel = QLabel()
-        catTitleLabel.setText(f"<h2>{c.title()}</h2>")
-
         titleLb.enterEvent = lambda e, lb=catTitleLabel, btn=delBtn: handleHover(windows, lb, btn, False)
         titleLb.leaveEvent = lambda e, lb=catTitleLabel, btn=delBtn: handleHover(windows, lb, btn, True)
 
