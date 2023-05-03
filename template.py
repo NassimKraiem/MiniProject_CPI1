@@ -93,6 +93,10 @@ def createButton(l: Livre, edit, window):
 
     return res
 
+def handleHover(windows, lb, delBtn, hidden):
+    #print(f"{lb.text()[4:-5]}")
+    delBtn.setHidden(hidden)
+
 def getBody(livres, windows, edit, groupBy="Categorie"):
     res = []
     livres = sorted(livres, key=lambda x:(x.categorie, x.reference))
@@ -131,14 +135,25 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
         #print(*ls, sep='\n\t')
         ttt = QWidget()
         ligne = QVBoxLayout()
-        ligne.setObjectName(c)
+        ligne.setObjectName(''.join(c.split()))
         ligne.setContentsMargins(0,20,0,0)
 
+        titleLbLayout = QHBoxLayout() 
+        titleLbLayout.setContentsMargins(0,0,0,0)
+        titleLb = QWidget()
+
+        delBtn = QPushButton()
+        delBtn.setObjectName("delBtn")
+        delBtn.setText("X")
+        delBtn.setFixedSize(20, 20)
+        delBtn.clicked.connect(lambda: print("delete"))
+        delBtn.setHidden(True)
+        
         catTitleLabel = QLabel()
         catTitleLabel.setText(f"<h2>{c.title()}</h2>")
 
-        catTitleLabel.enterEvent = lambda e, lb=catTitleLabel: print(f"enter {lb.text()[4:-5]}")
-        catTitleLabel.leaveEvent = lambda e: print("leave")
+        titleLb.enterEvent = lambda e, lb=catTitleLabel, btn=delBtn: handleHover(windows, lb, btn, False)
+        titleLb.leaveEvent = lambda e, lb=catTitleLabel, btn=delBtn: handleHover(windows, lb, btn, True)
 
         # self.hover_widget = QLabel('Hovered!')
         # self.hover_widget.hide()
@@ -160,7 +175,13 @@ def getBody(livres, windows, edit, groupBy="Categorie"):
         scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
 
-        ligne.addWidget(catTitleLabel)
+        titleLbLayout.addWidget(catTitleLabel)
+        titleLbLayout.addWidget(delBtn)
+        titleLbLayout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+
+        titleLb.setLayout(titleLbLayout)
+
+        ligne.addWidget(titleLb)
         
 
         scrollAreaContent = QWidget()
