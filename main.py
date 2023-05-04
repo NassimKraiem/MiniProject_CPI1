@@ -287,6 +287,11 @@ def loadTabEtudiants(windows):
     windows.loadBtn.clicked.connect(charger)
     windows.saveBtn.clicked.connect(lambda: dbManager.enregistrer(shared_data.etudiants, "etudiants"))
 
+    windows.comboBoxSection.setDisabled(True)
+    windows.comboBoxNiveau.setDisabled(True)
+    windows.checkBoxSection.stateChanged.connect(lambda state: windows.comboBoxSection.setDisabled(state != 2))
+    windows.checkBoxNiveau.stateChanged.connect(lambda state: windows.comboBoxNiveau.setDisabled(state != 2))
+
     etudPanWin.setWindowFlags(etudPanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     interface.setWindowBtnsState(etudPanWin, False)
     #etudPanWin.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint, True)

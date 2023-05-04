@@ -81,6 +81,10 @@ QTabWidget#tabWidget QTabBar::tab {
 	background-color: transparent;
 }
 
+#main_content &gt; #scrollArea{
+	border: none;
+}
+
 
 
 
@@ -154,13 +158,54 @@ QScrollBar::add-line:vertical {
 	border-width: 4px;
 	border-top-color : white;
 	margin: 5px 2px;
-}</string>
+}
+
+#searchSection_2 &gt; #critereRechEtudiant{
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: black;
+	border-top-right-radius: 13px;
+	border-bottom-right-radius: 13px;
+}
+#searchSection_2 &gt; #critereRechEtudiant::drop-down{
+	background-color: black;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+#searchSection_2 &gt; #critereRechEtudiant::down-arrow{
+	border-style: solid;
+	border-width: 4px;
+	border-top-color : white;
+	margin: 5px 2px;
+}
+#searchSection_2 &gt; #searchBar{
+	border-width: 1px 0px 1px 1px;
+	border-style: solid;
+	border-color: black;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	padding-left: 10px;
+}
+
+/*#checkBoxSection::indicator, #checkBoxNiveau::indicator{
+	border: 2px solid black;
+}*/
+/*QCheckBox::indicator {
+                border: 2px solid red;
+            }
+            QCheckBox::indicator:checked {
+                background-color: red;
+            }
+            QCheckBox::indicator:unchecked {
+                background-color: white;
+            }
+            */</string>
   </property>
   <widget class="QWidget" name="tabs">
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QGridLayout" name="gridLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -173,7 +218,7 @@ QScrollBar::add-line:vertical {
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="0" column="0">
+    <item>
      <widget class="QWidget" name="body" native="true">
       <property name="minimumSize">
        <size>
@@ -384,7 +429,7 @@ QScrollBar::add-line:vertical {
           <enum>QTabWidget::West</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tabLivres">
           <attribute name="title">
@@ -696,52 +741,281 @@ QScrollBar::add-line:vertical {
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
-                <widget class="QLineEdit" name="searchBar"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="saveBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <property name="bottomMargin">
+                  <number>10</number>
                  </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>S</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="loadBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>30</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>L</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="clearBtn">
-                 <property name="text">
-                  <string>clear</string>
-                 </property>
-                </widget>
+                 <item>
+                  <widget class="QWidget" name="searchSection_2" native="true">
+                   <layout class="QHBoxLayout" name="searchSectionLayout_3">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QLineEdit" name="searchBar">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>26</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="critereRechEtudiant">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>26</height>
+                       </size>
+                      </property>
+                      <property name="currentIndex">
+                       <number>0</number>
+                      </property>
+                      <property name="insertPolicy">
+                       <enum>QComboBox::NoInsert</enum>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>NCE</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>NOM</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>PRENOM</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                   <property name="leftMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>10</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="saveBtn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>S</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="loadBtn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>30</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>L</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="clearBtn">
+                     <property name="text">
+                      <string>clear</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_7">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="horizontalWidget_2" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_8">
+                      <property name="spacing">
+                       <number>5</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QCheckBox" name="checkBoxSection">
+                        <property name="maximumSize">
+                         <size>
+                          <width>15</width>
+                          <height>15</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QComboBox" name="comboBoxSection">
+                        <property name="maximumSize">
+                         <size>
+                          <width>100</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <item>
+                         <property name="text">
+                          <string>CPI</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>INFO</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>EEA</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>TIC</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Cycle Ingenieur</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="horizontalWidget_3" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_10">
+                      <property name="spacing">
+                       <number>5</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QCheckBox" name="checkBoxNiveau">
+                        <property name="maximumSize">
+                         <size>
+                          <width>15</width>
+                          <height>15</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QComboBox" name="comboBoxNiveau">
+                        <property name="maximumSize">
+                         <size>
+                          <width>100</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <item>
+                         <property name="text">
+                          <string>1ere</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>2eme</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>3eme</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>
