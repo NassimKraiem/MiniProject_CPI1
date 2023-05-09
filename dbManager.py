@@ -53,4 +53,4 @@ def enregistrer(classList, fname):
     with open(f"DB/{fname}.csv", 'w',newline='\n') as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
         for cls in classList:
-            writer.writerow(cls.locals)
+            writer.writerow(cls.getLocals())

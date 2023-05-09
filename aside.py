@@ -32,7 +32,8 @@ def completeHandleTabChange(windows, w):
     updateDB()
 
 def handleTabChange(windows, w):
-    interface.confirm(msg = "Changes will be saved when changing tab\nAre you sure?", successFunc = (lambda: completeHandleTabChange(windows, w)))
+    completeHandleTabChange(windows, w)
+    #interface.confirm(msg = "Changes will be saved when changing tab\nAre you sure?", successFunc = (lambda: completeHandleTabChange(windows, w)))
     #print(msgBox.clickedButton().text())
 
 

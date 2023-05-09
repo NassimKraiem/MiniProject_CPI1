@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QInputDialog, QSpacerItem, QSizePolicy
 import dbManager
@@ -10,7 +10,16 @@ def afficherEtudiants(etudiants, windows, query=""):
     if(empty(query)):
         filtred = etudiants.copy()
     else:
-        filtred = list(filter(lambda x: query in x.nom, etudiants))
+        
+        critere = windows.critereRechEtudiant.currentText()
+        if(critere=="NCE"):
+            filtred = list(filter(lambda x: query.lower() in x.nom.lower(), etudiants))
+        elif(critere=="NOM"):
+            filtred = list(filter(lambda x: query.lower() in x.nom.lower(), etudiants))
+        elif(critere=="PRENOM"):
+            filtred = list(filter(lambda x: query.lower() in x.prenom.lower(), etudiants))
+        else:
+            raise Exception("Critere de recherce doit etre 'NCE' ou 'NOM' ou 'PRENOM'!")
     
     
     windows.table.setRowCount(len(filtred))
@@ -42,6 +51,13 @@ def afficherEmprunts(emprunts, windows, query=""):
         windows.table_3.setItem(i, 2, QTableWidgetItem(emprunt.dateEmprunt))
         windows.table_3.setItem(i, 3, QTableWidgetItem(emprunt.dateRetour))
         windows.table_3.setItem(i, 4, QTableWidgetItem(emprunt.nombreExemplaires))
+        #windows.table_3.setDisabled(emprunt.dateRetour == "--/--/--")
+        if (emprunt.dateRetour != "--/--/--"):
+            for j in range(5):
+                item = windows.table_3.item(i, j)
+                #item.setFlags(item.flags() & ~QtCore.Qt.ItemIsEnabled)
+                item.setBackground(QtGui.QBrush(QtGui.QColor(220, 220, 220)))
+                item.setForeground(QtGui.QBrush(QtGui.QColor(150, 150, 150)))
 
         
 # def filterEtudiants(etudiants, windows):
@@ -81,7 +97,7 @@ def afficherLivres(livres, windows, edit, groupBy="Categorie", query="", critere
         elif(critere=="Ref"):
             filtred = list(filter(lambda x: query.lower() in x.reference, livres))
         else:
-            raise "Critere de recherce doit etre 'Titre' ou 'Ref'!"
+            raise Exception("Critere de recherce doit etre 'Titre' ou 'Ref'!")
 
     lignes = template.getBody(filtred, windows, edit, groupBy)
     for ligne in lignes:

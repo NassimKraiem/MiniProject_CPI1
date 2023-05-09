@@ -111,7 +111,7 @@ def loadTabLivres(windows):
         # elif(empty(livrePanWin.anneeEdition.text().replace('\u200f', ''))):
         #     interface.alert("Selectionner la date de naissance de l'etudiant!")
         elif(empty(livrePanWin.nbExemp.text())):
-            interface.alert("Remplir l'adresse de l'etudiante nombre d'exemplaires!")
+            interface.alert("Remplir le nombre d'exemplaires!")
         # elif(int(livrePanWin.nbExemp.text()) < 1):
         #     interface.alert("Le nombre d'exemplaires doit etre > 1!")
         elif(empty(livrePanWin.categorie.currentText())):
@@ -344,7 +344,7 @@ def loadTabEmprunts(windows):
                         empPanWin.nce.currentText().strip(),
                         empPanWin.reference.currentText(),
                         empPanWin.dateEmprunt.text().replace('\u200f', ''),
-                        empPanWin.dateRetour.text().replace('\u200f', ''),
+                        "--/--/--",
                         empPanWin.nombreExemplaires.text()
                     )
                 )
@@ -372,8 +372,8 @@ def loadTabEmprunts(windows):
         empPanWin.reference.setDisabled(True)
         empPanWin.dateEmprunt.setDate(QtCore.QDate.fromString(emprunt.dateEmprunt, "d/M/yyyy"))
         empPanWin.dateEmprunt.setDisabled(True)
-        empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
-        empPanWin.dateRetour.setDisabled(True)
+        #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
+        #empPanWin.dateRetour.setDisabled(True)
         print("nnnn", emprunt.nombreExemplaires)
         empPanWin.nombreExemplaires.setValue(int(emprunt.nombreExemplaires))
     
@@ -386,11 +386,11 @@ def loadTabEmprunts(windows):
         formatted_dateEmprunt = current_dateEmprunt.strftime("%d/%m/%Y")
         empPanWin.dateEmprunt.setDate(QtCore.QDate.fromString(formatted_dateEmprunt, "d/M/yyyy"))
         empPanWin.dateEmprunt.setDisabled(True)
-        dateRetour = current_dateEmprunt + timedelta(weeks=1)
-        formatted_dateRetour = dateRetour.strftime("%d/%m/%Y")
-        empPanWin.dateRetour.setDate(QtCore.QDate.fromString(formatted_dateRetour, "d/M/yyyy"))
-        empPanWin.dateRetour.setMinimumDate(empPanWin.dateEmprunt.date())
-        empPanWin.dateRetour.setDisabled(False)
+        #dateRetour = current_dateEmprunt + timedelta(weeks=1)
+        #formatted_dateRetour = dateRetour.strftime("%d/%m/%Y")
+        #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(formatted_dateRetour, "d/M/yyyy"))
+        #empPanWin.dateRetour.setMinimumDate(empPanWin.dateEmprunt.date())
+        #empPanWin.dateRetour.setDisabled(False)
         empPanWin.nombreExemplaires.setValue(1)
 
     windows.clearBtn_3.clicked.connect(lambda: windows.searchBar_3.setText(""))
@@ -400,12 +400,17 @@ def loadTabEmprunts(windows):
                                             interface.afficherEmprunts(shared_data.emprunts, windows, ""),
                                             windows.searchBar_3.setText("")
                                             ))
+    windows.retourBtn.clicked.connect(lambda: (emp.retourner(shared_data.emprunts, windows, shared_data.livres),
+                                            windows.table_3.setCurrentCell(-1, -1),
+                                            interface.afficherEmprunts(shared_data.emprunts, windows, ""),
+                                            windows.searchBar_3.setText("")
+                                            ))
     windows.addBtn_3.clicked.connect(lambda: (resetEmpPan(), openAddWindow(windows, empPanWin), fillComboBox(empPanWin.nce, [x.nce for x in shared_data.etudiants]), fillComboBox(empPanWin.reference, [x.reference for x in shared_data.livres])))
     windows.table_3.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table_3.itemSelectionChanged.connect(lambda: selectCurrentRowEmp(windows))
     windows.table_3.doubleClicked.connect(lambda: (openEditWindow(windows, empPanWin), edit(shared_data.emprunts[windows.table_3.currentRow()])))
     windows.loadBtn_3.clicked.connect(charger)
-    windows.saveBtn_3.clicked.connect(lambda: dbManager.enregistrer(shared_data.emprunts, "emprunts"))
+    windows.saveBtn_3.clicked.connect(lambda: (print(*shared_data.emprunts), dbManager.enregistrer(shared_data.emprunts, "emprunts")))
 
     empPanWin.setWindowFlags(empPanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     interface.setWindowBtnsState(empPanWin, False)

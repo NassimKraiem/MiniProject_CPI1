@@ -32,11 +32,11 @@ QPushButton#addBtn:!disabled, QPushButton#ajouterLivreBtn:!disabled{
 }
 
 #body{
-	background-color: white;
+	background-color: rgb(243, 243, 243);
 }
 
 #side_nav{
-	background-color: #f1f0f2;
+	background-color: rgb(211, 215, 207); /* #f1f0f2 */
 }
 #side_nav &gt; #top_aside &gt; QPushButton{
 	color: #808081;
@@ -282,7 +282,7 @@ QScrollBar::add-line:vertical {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
+                 <normaloff>../../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -327,7 +327,7 @@ QScrollBar::add-line:vertical {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
+                 <normaloff>../../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -372,7 +372,7 @@ QScrollBar::add-line:vertical {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
+                 <normaloff>../../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</normaloff>../../../../../Documents/PythonProjects/QtProjects/MiniProject/arrow.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -429,7 +429,7 @@ QScrollBar::add-line:vertical {
           <enum>QTabWidget::West</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tabLivres">
           <attribute name="title">
@@ -1247,6 +1247,13 @@ QScrollBar::add-line:vertical {
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="retourBtn">
+                <property name="text">
+                 <string>retour</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="delBtn_3">
