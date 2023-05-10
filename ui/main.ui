@@ -429,7 +429,7 @@ QScrollBar::add-line:vertical {
           <enum>QTabWidget::West</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tabLivres">
           <attribute name="title">
@@ -563,6 +563,40 @@ QScrollBar::add-line:vertical {
                    <number>10</number>
                   </property>
                   <item>
+                   <widget class="QPushButton" name="saveLivresBtn">
+                    <property name="maximumSize">
+                     <size>
+                      <width>30</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <normaloff>../diskette.png</normaloff>../diskette.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="loadLivresBtn">
+                    <property name="maximumSize">
+                     <size>
+                      <width>30</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <normaloff>../open-folder.png</normaloff>../open-folder.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <spacer name="horizontalSpacer_3">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -626,7 +660,7 @@ QScrollBar::add-line:vertical {
                   <x>0</x>
                   <y>0</y>
                   <width>477</width>
-                  <height>343</height>
+                  <height>339</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout">
@@ -650,32 +684,6 @@ QScrollBar::add-line:vertical {
              <item>
               <widget class="QWidget" name="livreTabToolBar" native="true">
                <layout class="QHBoxLayout" name="livreTabToolBarLayout">
-                <item>
-                 <widget class="QPushButton" name="saveLivresBtn">
-                  <property name="maximumSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>S</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="loadLivresBtn">
-                  <property name="maximumSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>L</string>
-                  </property>
-                 </widget>
-                </item>
                 <item>
                  <spacer name="horizontalSpacer_5">
                   <property name="orientation">
@@ -782,7 +790,7 @@ QScrollBar::add-line:vertical {
                        </size>
                       </property>
                       <property name="currentIndex">
-                       <number>0</number>
+                       <number>2</number>
                       </property>
                       <property name="insertPolicy">
                        <enum>QComboBox::NoInsert</enum>
@@ -830,7 +838,11 @@ QScrollBar::add-line:vertical {
                       </size>
                      </property>
                      <property name="text">
-                      <string>S</string>
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>../diskette.png</normaloff>../diskette.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -849,12 +861,22 @@ QScrollBar::add-line:vertical {
                       </size>
                      </property>
                      <property name="text">
-                      <string>L</string>
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>../open-folder.png</normaloff>../open-folder.png</iconset>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <widget class="QPushButton" name="clearBtn">
+                     <property name="maximumSize">
+                      <size>
+                       <width>0</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="text">
                       <string>clear</string>
                      </property>
@@ -1093,7 +1115,7 @@ QScrollBar::add-line:vertical {
               <item>
                <widget class="QPushButton" name="delBtn">
                 <property name="text">
-                 <string>del</string>
+                 <string>Supp.</string>
                 </property>
                 <property name="col" stdset="0">
                  <string>red</string>
@@ -1103,7 +1125,7 @@ QScrollBar::add-line:vertical {
               <item>
                <widget class="QPushButton" name="addBtn">
                 <property name="text">
-                 <string>add</string>
+                 <string>Ajouter</string>
                 </property>
                </widget>
               </item>
@@ -1160,7 +1182,11 @@ QScrollBar::add-line:vertical {
                   </size>
                  </property>
                  <property name="text">
-                  <string>S</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../diskette.png</normaloff>../diskette.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -1179,7 +1205,11 @@ QScrollBar::add-line:vertical {
                   </size>
                  </property>
                  <property name="text">
-                  <string>L</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../open-folder.png</normaloff>../open-folder.png</iconset>
                  </property>
                 </widget>
                </item>

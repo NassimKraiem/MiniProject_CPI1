@@ -14,7 +14,7 @@ class Etudiant:
         self.niveau = niveau
         #self.locals = list(locals().values())[1:]
     def getLocals(self):
-        return list(vars(self.__class__).values())
+        return list(vars(self).values())
     def __str__(self):
         return f"{self.nce}, {self.nom}{' 'if not empty(self.prenom) else ''}{self.prenom}{', 'if not empty(self.section) else ''}{self.section}{self.niveau}{',né le 'if not empty(self.dateN) else ''}{self.dateN}{', habite à 'if not empty(self.adresse) else ''}{self.adresse}"
     def __eq__(self, other): 
@@ -35,7 +35,7 @@ class Livre:
         self.couverture = couverture
         #self.locals = list(locals().values())[1:]
     def getLocals(self):
-        return list(vars(self.__class__).values())
+        return list(vars(self).values())
     def __str__(self):
         return f"{self.reference}, {self.titre}{', 'if not empty(self.npAuteur) else ''}{self.npAuteur}{', 'if not empty(self.anneeEdition) else ''}{self.anneeEdition}{', 'if not empty(self.categorie) else ''}{self.categorie}{', 'if not empty(self.couverture) else ''}{self.couverture}{', nb exemplaire: 'if not empty(self.nombreExemplaires) else ''}{self.nombreExemplaires}"
     def __eq__(self, other):
@@ -62,9 +62,9 @@ class Emprunt:
             return NotImplemented
         return (
             self.nce == other.nce and
-            self.reference == other.reference #and
-            # self.dateEmprunt == other.dateEmprunt and
-            # self.dateRetour == other.dateRetour and
+            self.reference == other.reference and
+            #self.dateEmprunt == other.dateEmprunt and
+            self.dateRetour == other.dateRetour #and
             # self.nombreExemplaires == other.nombreExemplaires
         )
     def __ne__(self, other):

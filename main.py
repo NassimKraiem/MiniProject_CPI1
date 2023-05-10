@@ -188,8 +188,25 @@ def loadTabEtudiants(windows):
         shared_data.etudiants = dbManager.charger("etudiants")
         interface.afficherEtudiants(shared_data.etudiants, windows)
     
+    def verifEmail(ch: str):
+        if(ch.count(".@")>0 or ch.count("@.")>0 or ch[0]=="." or ch[-1]=='.'
+            or ch.count("_@")>0 or ch[0]=="_"
+            or ch.count("-@")>0 or ch[0]=="-"
+            or ch.count("@") != 1 or ch[0]=="@" or ch[-1]=="@"
+            ):
+            return False
+        ch = "".join(ch.split())
+        L = ch.split("@", maxsplit=1)
+        #onep = (L[-1].count(".") == 1)
+        onep = "".join(L[-1].split(".", maxsplit=1))
+        L[0] = L[0].replace("_", "").replace("-", "")
+        ch = "".join(L)
+        ch = "".join(ch.split("."))
+
+        return (ch.isalnum() and onep.isalpha())
+    
     def handleAjouterModifierEtudiant():
-        if(dbManager.existe(etudPanWin.nce.text(), shared_data.etudiants, e)):
+        if(etudPanWin.nce.isEnabled() and dbManager.existe(etudPanWin.nce.text(), shared_data.etudiants, e)):
             interface.alert("Etudiant existant!")
         elif(empty(etudPanWin.nce.text())):
             interface.alert("Remplir NCE!")
@@ -209,8 +226,8 @@ def loadTabEtudiants(windows):
             interface.alert("L'adresse ne doit contenir que des chiffres, des lettres et des espaces!")
         elif(empty(etudPanWin.mail.text())):
             interface.alert("Remplir l'email de l'etudiant!")
-        elif(not (etudPanWin.mail.text().isalnum())):
-            interface.alert("email is not alnum! <--")
+        elif(not verifEmail(etudPanWin.mail.text())):
+            interface.alert("L'email peut etre de cette forme: t-est_2.test@test.com")
         # elif(empty(etudPanWin.telephone.text())):
         #     interface.alert("Remplir le numero de tel de l'etudiant!")
         elif(empty(etudPanWin.section.currentText())):
@@ -220,6 +237,7 @@ def loadTabEtudiants(windows):
         else:
             if(not etudPanWin.nce.isEnabled()):
                 shared_data.etudiants.pop(shared_data.etudiants.index(e.ajouter(etudPanWin.nce.text())))
+            
             shared_data.etudiants.append(
                 e.ajouter(
                     etudPanWin.nce.text().strip(),
@@ -275,6 +293,7 @@ def loadTabEtudiants(windows):
 
     windows.clearBtn.clicked.connect(lambda: windows.searchBar.setText(""))
     windows.searchBar.textChanged.connect(lambda: interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()))
+    windows.critereRechEtudiant.currentIndexChanged.connect(lambda: interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()))
     windows.delBtn.clicked.connect(lambda: (e.supprimer(shared_data.etudiants, windows),
                                             windows.table.setCurrentCell(-1, -1),
                                             interface.afficherEtudiants(shared_data.etudiants, windows, ""),
@@ -288,9 +307,12 @@ def loadTabEtudiants(windows):
     windows.saveBtn.clicked.connect(lambda: dbManager.enregistrer(shared_data.etudiants, "etudiants"))
 
     windows.comboBoxSection.setDisabled(True)
+    windows.comboBoxSection.currentIndexChanged.connect(lambda: interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()))
+    windows.checkBoxSection.stateChanged.connect(lambda state: (interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()), windows.comboBoxSection.setDisabled(state != 2)))
+
     windows.comboBoxNiveau.setDisabled(True)
-    windows.checkBoxSection.stateChanged.connect(lambda state: windows.comboBoxSection.setDisabled(state != 2))
-    windows.checkBoxNiveau.stateChanged.connect(lambda state: windows.comboBoxNiveau.setDisabled(state != 2))
+    windows.comboBoxNiveau.currentIndexChanged.connect(lambda: interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()))
+    windows.checkBoxNiveau.stateChanged.connect(lambda state: (interface.afficherEtudiants(shared_data.etudiants, windows, windows.searchBar.text()), windows.comboBoxNiveau.setDisabled(state != 2)))
 
     etudPanWin.setWindowFlags(etudPanWin.windowFlags() | QtCore.Qt.CustomizeWindowHint)
     interface.setWindowBtnsState(etudPanWin, False)
@@ -316,8 +338,8 @@ def loadTabEmprunts(windows):
             interface.alert("Selectionner NCE!")
         elif(empty(empPanWin.reference.currentText())):
             interface.alert("Selectionner reference du livre!")
-        elif(empPanWin.nce.isEnabled() and emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText()) in shared_data.emprunts):
-            interface.alert("Cet étudiant a déja emprunté ce livre!")
+        elif(empPanWin.nce.isEnabled() and emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText(), dateRetour="--/--/--") in shared_data.emprunts and any([i.dateRetour == "--/--/--" for i in shared_data.emprunts if (i.nce == empPanWin.nce.currentText() and i.reference == empPanWin.reference.currentText())])):
+            interface.alert("Cet étudiant a déja emprunté ce livre sans le retourner!")
         elif(e.ajouter(empPanWin.nce.currentText()) not in shared_data.etudiants):
             interface.alert("NCE n'existe pas!")
         elif(l.ajouter(empPanWin.reference.currentText()) not in shared_data.livres):
@@ -326,7 +348,8 @@ def loadTabEmprunts(windows):
             borrowedBook = list(filter(lambda x: x.reference == empPanWin.reference.currentText(), shared_data.livres))[0]
 
             if(not empPanWin.nce.isEnabled()):
-                bookInstanceIndex = shared_data.emprunts.index(emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText()))
+                bookInstanceIndex = shared_data.emprunts.index(emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText(), dateRetour=("--/--/--" if empPanWin.dateRetour.isHidden() else shared_data.tempDateRetour)))
+                dateR = shared_data.emprunts[bookInstanceIndex].dateRetour
                 nouvNbrExemplaire = str(int(borrowedBook.nombreExemplaires) - int(empPanWin.nombreExemplaires.text()) + int(shared_data.emprunts[bookInstanceIndex].nombreExemplaires))
             else:
                 nouvNbrExemplaire = str(int(borrowedBook.nombreExemplaires) - int(empPanWin.nombreExemplaires.text()))
@@ -344,7 +367,7 @@ def loadTabEmprunts(windows):
                         empPanWin.nce.currentText().strip(),
                         empPanWin.reference.currentText(),
                         empPanWin.dateEmprunt.text().replace('\u200f', ''),
-                        "--/--/--",
+                        "--/--/--" if(empPanWin.nce.isEnabled() or empPanWin.dateRetour.isHidden()) else  empPanWin.dateRetour.text().replace('\u200f', ''),#dateR,
                         empPanWin.nombreExemplaires.text()
                     )
                 )
@@ -374,7 +397,17 @@ def loadTabEmprunts(windows):
         empPanWin.dateEmprunt.setDisabled(True)
         #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
         #empPanWin.dateRetour.setDisabled(True)
-        print("nnnn", emprunt.nombreExemplaires)
+        #print("nnnn", emprunt.nombreExemplaires)
+        shared_data.tempDateRetour = emprunt.dateRetour
+        if(emprunt.dateRetour == "--/--/--"):
+            empPanWin.formWidget.layout().itemAt(10).widget().hide()
+            empPanWin.formWidget.layout().itemAt(9).widget().hide()
+        else:
+            empPanWin.formWidget.layout().itemAt(10).widget().show()
+            empPanWin.formWidget.layout().itemAt(9).widget().show()
+            empPanWin.dateRetour.setMinimumDate(QtCore.QDate.fromString(emprunt.dateEmprunt, "d/M/yyyy"))
+            empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
+
         empPanWin.nombreExemplaires.setValue(int(emprunt.nombreExemplaires))
     
     def resetEmpPan():
@@ -391,6 +424,19 @@ def loadTabEmprunts(windows):
         #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(formatted_dateRetour, "d/M/yyyy"))
         #empPanWin.dateRetour.setMinimumDate(empPanWin.dateEmprunt.date())
         #empPanWin.dateRetour.setDisabled(False)
+        #empPanWin.dateRetour.setDisabled(True)
+
+
+        empPanWin.formWidget.layout().itemAt(10).widget().hide()
+        empPanWin.formWidget.layout().itemAt(9).widget().hide()
+
+
+
+        # empPanWin.formWidget.layout().removeWidget(empPanWin.dateRetour)
+        # line_edit = QtWidgets.QLineEdit()
+        # line_edit.setText("--/--/--")
+        # empPanWin.formWidget.layout().addRow("Date:", line_edit)
+
         empPanWin.nombreExemplaires.setValue(1)
 
     windows.clearBtn_3.clicked.connect(lambda: windows.searchBar_3.setText(""))

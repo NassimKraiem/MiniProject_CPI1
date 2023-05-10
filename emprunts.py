@@ -11,12 +11,13 @@ def supprimer(emprunts, windows, livres):
         if(indEmp in range(0, len(emprunts))):
             nce = windows.table_3.model().data(windows.table_3.model().index(indEmp, 0))
             reference = windows.table_3.model().data(windows.table_3.model().index(indEmp, 1))
+            dateR = windows.table_3.model().data(windows.table_3.model().index(indEmp, 3))
             #nbExemp = windows.table_3.model().data(windows.table_3.model().index(indEmp, 4))
 
             #borrowedBook = list(filter(lambda x: x.reference == reference, livres))[0]
             #borrowedBook.nombreExemplaires = str(int(borrowedBook.nombreExemplaires) + int(nbExemp))
 
-            emprunts.remove(ajouter(nce, reference)) #creer une instance avec le meme nce comme reference de comparaison
+            emprunts.remove(ajouter(nce, reference, dateRetour=dateR)) #creer une instance avec le meme nce comme reference de comparaison
                                         #puisque le nce seulement est comparé dans "__eq__"
         else:
             raise Exception("L'indice de l'etudiant n'existe pas!")
@@ -28,8 +29,9 @@ def retourner(emprunts, windows, livres):
             reference = windows.table_3.model().data(windows.table_3.model().index(indEmp, 1))
             nbExemp = windows.table_3.model().data(windows.table_3.model().index(indEmp, 4))
 
-            if(emprunts[emprunts.index(ajouter(nce, reference))].dateRetour != "--/--/--"):
-                alert(msg="Emprunt deja retournee!")
+            #if(emprunts[emprunts.index(ajouter(nce, reference))].dateRetour != "--/--/--"):
+            if(all([i.dateRetour!="--/--/--" for i in emprunts if (i.nce == nce and i.reference == reference)])):
+                alert(msg=f"Emprunt du livre {reference} par {nce} déja retourné!")
                 return
 
             borrowedBook = list(filter(lambda x: x.reference == reference, livres))[0]
@@ -37,7 +39,7 @@ def retourner(emprunts, windows, livres):
 
             current_dateRetour = date.today()
             formatted_dateRetour = current_dateRetour.strftime("%d/%m/%Y")
-            emprunts[emprunts.index(ajouter(nce, reference))].dateRetour = formatted_dateRetour
+            emprunts[emprunts.index(ajouter(nce, reference, dateRetour='--/--/--'))].dateRetour = formatted_dateRetour
             #emprunts.remove(ajouter(nce, reference)) #creer une instance avec le meme nce comme reference de comparaison
                                         #puisque le nce seulement est comparé dans "__eq__"
         else:

@@ -13,13 +13,18 @@ def afficherEtudiants(etudiants, windows, query=""):
         
         critere = windows.critereRechEtudiant.currentText()
         if(critere=="NCE"):
-            filtred = list(filter(lambda x: query.lower() in x.nom.lower(), etudiants))
+            filtred = list(filter(lambda x: query.lower() in x.nce, etudiants))
         elif(critere=="NOM"):
             filtred = list(filter(lambda x: query.lower() in x.nom.lower(), etudiants))
         elif(critere=="PRENOM"):
             filtred = list(filter(lambda x: query.lower() in x.prenom.lower(), etudiants))
         else:
             raise Exception("Critere de recherce doit etre 'NCE' ou 'NOM' ou 'PRENOM'!")
+        
+    if(windows.checkBoxSection.isChecked()):
+        filtred = list(filter(lambda x: x.section == windows.comboBoxSection.currentText(), filtred))
+    if(windows.checkBoxNiveau.isChecked()):
+        filtred = list(filter(lambda x: x.niveau == windows.comboBoxNiveau.currentText(), filtred))
     
     
     windows.table.setRowCount(len(filtred))
