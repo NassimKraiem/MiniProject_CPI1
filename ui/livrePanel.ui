@@ -212,6 +212,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>ref</tabstop>
+  <tabstop>titre</tabstop>
+  <tabstop>nomAut</tabstop>
+  <tabstop>anneeEdition</tabstop>
+  <tabstop>nbExemp</tabstop>
+  <tabstop>categorie</tabstop>
+  <tabstop>selectCoverBtn</tabstop>
+ </tabstops>
  <resources>
   <include location="test.qrc"/>
  </resources>

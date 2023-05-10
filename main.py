@@ -146,7 +146,7 @@ def loadTabLivres(windows):
                 if isinstance(widget, QtWidgets.QLabel):
                     #print("Label:", widget.text())
                     if(widget.property("selected")):
-                        if(len(list(filter(lambda x: x.reference == ref, shared_data.emprunts))) > 0):
+                        if(len(list(filter(lambda x: x.reference == ref and x.dateRetour == "--/--/--", shared_data.emprunts))) > 0):
                             interface.alert(f"Impossible de supprimer le livre \"{shared_data.livres[shared_data.livres.index(l.ajouter(ref))].titre}\"! (emprunté)")
                         else:
                             shared_data.livres.pop(shared_data.livres.index(l.ajouter(ref)))
@@ -305,7 +305,7 @@ def loadTabEtudiants(windows):
     windows.table.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table.itemSelectionChanged.connect(lambda: selectCurrentRow(windows))
     windows.table.doubleClicked.connect(lambda: (openEditWindow(windows, etudPanWin), edit(shared_data.etudiants[windows.table.currentRow()])))
-    windows.table.sortByColumn(0, QtCore.Qt.AscendingOrder)
+    #windows.table.sortByColumn(0, QtCore.Qt.AscendingOrder)
     windows.loadBtn.clicked.connect(charger)
     windows.saveBtn.clicked.connect(lambda: dbManager.enregistrer(shared_data.etudiants, "etudiants"))
 
@@ -348,7 +348,11 @@ def loadTabEmprunts(windows):
         elif(l.ajouter(empPanWin.reference.currentText()) not in shared_data.livres):
             interface.alert("Réference n'existe pas!")
         else:
-            borrowedBook = list(filter(lambda x: x.reference == empPanWin.reference.currentText(), shared_data.livres))[0]
+            borrowedBook = list(filter(lambda x: x.reference == empPanWin.reference.currentText(), shared_data.livres))
+            if(len(borrowedBook)>0):
+                borrowedBook = borrowedBook[0]
+            else:
+                borrowedBook = None
 
             if(not empPanWin.nce.isEnabled()):
                 bookInstanceIndex = shared_data.emprunts.index(emp.ajouter(empPanWin.nce.currentText(), empPanWin.reference.currentText(), dateRetour=("--/--/--" if empPanWin.dateRetour.isHidden() else shared_data.tempDateRetour)))
@@ -358,13 +362,14 @@ def loadTabEmprunts(windows):
                 nouvNbrExemplaire = str(int(borrowedBook.nombreExemplaires) - int(empPanWin.nombreExemplaires.text()))
             
             if(int(nouvNbrExemplaire) < 0):
-                print(nouvNbrExemplaire)
+                #print(nouvNbrExemplaire)
                 interface.alert("Nombre d'exemplaires insuffisant!")
             else:
                 if (not empPanWin.nce.isEnabled()):
                     shared_data.emprunts.pop(bookInstanceIndex)
-            
-                borrowedBook.nombreExemplaires = nouvNbrExemplaire
+
+                if(borrowedBook):
+                    borrowedBook.nombreExemplaires = nouvNbrExemplaire
                 shared_data.emprunts.append(
                     emp.ajouter(
                         empPanWin.nce.currentText().strip(),
@@ -397,7 +402,7 @@ def loadTabEmprunts(windows):
         empPanWin.reference.setCurrentIndex(referenceIndex)
         empPanWin.reference.setDisabled(True)
         empPanWin.dateEmprunt.setDate(QtCore.QDate.fromString(emprunt.dateEmprunt, "d/M/yyyy"))
-        empPanWin.dateEmprunt.setDisabled(True)
+        empPanWin.dateEmprunt.setDisabled(False)
         #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
         #empPanWin.dateRetour.setDisabled(True)
         #print("nnnn", emprunt.nombreExemplaires)
@@ -412,6 +417,7 @@ def loadTabEmprunts(windows):
             empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
 
         empPanWin.nombreExemplaires.setValue(int(emprunt.nombreExemplaires))
+        empPanWin.nombreExemplaires.setDisabled(emprunt.dateRetour != "--/--/--")
     
     def resetEmpPan():
         empPanWin.nce.setCurrentIndex(-1)
@@ -421,7 +427,7 @@ def loadTabEmprunts(windows):
         current_dateEmprunt = date.today()
         formatted_dateEmprunt = current_dateEmprunt.strftime("%d/%m/%Y")
         empPanWin.dateEmprunt.setDate(QtCore.QDate.fromString(formatted_dateEmprunt, "d/M/yyyy"))
-        empPanWin.dateEmprunt.setDisabled(True)
+        empPanWin.dateEmprunt.setDisabled(False)
         #dateRetour = current_dateEmprunt + timedelta(weeks=1)
         #formatted_dateRetour = dateRetour.strftime("%d/%m/%Y")
         #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(formatted_dateRetour, "d/M/yyyy"))

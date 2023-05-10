@@ -25,20 +25,24 @@ def afficherEtudiants(etudiants, windows, query=""):
         filtred = list(filter(lambda x: x.section == windows.comboBoxSection.currentText(), filtred))
     if(windows.checkBoxNiveau.isChecked()):
         filtred = list(filter(lambda x: x.niveau == windows.comboBoxNiveau.currentText(), filtred))
-    
-    
+
+    windows.table.setSortingEnabled(False)
+
     windows.table.setRowCount(len(filtred))
     for i, etudiant in enumerate(filtred):
         item = QTableWidgetItem(etudiant.nce)
         windows.table.setVerticalHeaderItem(i, item)
-        windows.table.setItem(i, 0, QTableWidgetItem(etudiant.nom))
-        windows.table.setItem(i, 1, QTableWidgetItem(etudiant.prenom))
-        windows.table.setItem(i, 2, QTableWidgetItem(etudiant.dateN))
-        windows.table.setItem(i, 3, QTableWidgetItem(etudiant.adresse))
-        windows.table.setItem(i, 4, QTableWidgetItem(etudiant.mail))
-        windows.table.setItem(i, 5, QTableWidgetItem(etudiant.telephone))
-        windows.table.setItem(i, 6, QTableWidgetItem(etudiant.section))
-        windows.table.setItem(i, 7, QTableWidgetItem(etudiant.niveau))
+        windows.table.setItem(i, 0, QTableWidgetItem(str(etudiant.nom)))
+        windows.table.setItem(i, 1, QTableWidgetItem(str(etudiant.prenom)))
+        windows.table.setItem(i, 2, QTableWidgetItem(str(etudiant.dateN)))
+        windows.table.setItem(i, 3, QTableWidgetItem(str(etudiant.adresse)))
+        windows.table.setItem(i, 4, QTableWidgetItem(str(etudiant.mail)))
+        windows.table.setItem(i, 5, QTableWidgetItem(str(etudiant.telephone)))
+        windows.table.setItem(i, 6, QTableWidgetItem(str(etudiant.section)))
+        windows.table.setItem(i, 7, QTableWidgetItem(str(etudiant.niveau)))
+    
+    windows.table.setSortingEnabled(True)
+        
 
 
 def afficherEmprunts(emprunts, windows, query=""):
@@ -46,6 +50,8 @@ def afficherEmprunts(emprunts, windows, query=""):
         filtred = emprunts.copy()
     else:
         filtred = list(filter(lambda x: query.lower() in x.nce, emprunts))
+    
+    windows.table_3.setSortingEnabled(False)
     
     windows.table_3.setRowCount(len(filtred))
     for i, emprunt in enumerate(filtred):
@@ -63,6 +69,8 @@ def afficherEmprunts(emprunts, windows, query=""):
                 #item.setFlags(item.flags() & ~QtCore.Qt.ItemIsEnabled)
                 item.setBackground(QtGui.QBrush(QtGui.QColor(220, 220, 220)))
                 item.setForeground(QtGui.QBrush(QtGui.QColor(150, 150, 150)))
+    
+    windows.table_3.setSortingEnabled(True)
 
         
 # def filterEtudiants(etudiants, windows):

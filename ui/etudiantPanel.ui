@@ -189,6 +189,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>nce</tabstop>
+  <tabstop>nom</tabstop>
+  <tabstop>prenom</tabstop>
+  <tabstop>dateN</tabstop>
+  <tabstop>adresse</tabstop>
+  <tabstop>mail</tabstop>
+  <tabstop>telephone</tabstop>
+  <tabstop>section</tabstop>
+  <tabstop>niveau</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

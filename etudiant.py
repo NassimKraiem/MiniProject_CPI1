@@ -30,9 +30,11 @@ def supprimerParNiveau(niveau, etudiants):
     return list(filter(lambda x:x.niveau != niveau, etudiants))
 
 def supprimer(etudiants, windows):
+    print(sorted(set([i.row() for i in windows.table.selectedIndexes()]), reverse=True))
     for indEtud in sorted(set([i.row() for i in windows.table.selectedIndexes()]), reverse=True):
         if(indEtud in range(0, len(etudiants))):
             id = windows.table.verticalHeaderItem(indEtud).text()
+            print(indEtud, id)
             etudiants.remove(ajouter(id)) #creer une instance avec le meme nce comme reference de comparaison
                                         #puisque le nce seulement est comparé dans "__eq__"
         else:

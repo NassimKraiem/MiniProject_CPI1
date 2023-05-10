@@ -146,6 +146,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>nce</tabstop>
+  <tabstop>reference</tabstop>
+  <tabstop>dateEmprunt</tabstop>
+  <tabstop>dateRetour</tabstop>
+  <tabstop>nombreExemplaires</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

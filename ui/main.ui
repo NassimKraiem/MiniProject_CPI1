@@ -18,11 +18,11 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QPushButton#delBtn:!disabled, QPushButton#suppLivreBtn:!disabled{
-	background-color: red;
-	color: white;
+	/*background-color: red;
+	color: white;*/
 }
-QPushButton#addBtn:!disabled, QPushButton#ajouterLivreBtn:!disabled{
-	background-color: green;
+QPushButton#addBtn:!disabled, QPushButton#ajouterLivreBtn:!disabled, QPushButton#addBtn_3:!disabled{
+	background-color: #333;
 	color: white;
 }
 #livreTabToolBar, #etudTabToolBar{
@@ -1775,6 +1775,43 @@ QScrollBar::add-line:vertical {
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>livresBtn</tabstop>
+  <tabstop>etudiantsBtn</tabstop>
+  <tabstop>empruntesBtn</tabstop>
+  <tabstop>searchBar_2</tabstop>
+  <tabstop>critereRechLivre</tabstop>
+  <tabstop>groupLivreByComboBox</tabstop>
+  <tabstop>saveLivresBtn</tabstop>
+  <tabstop>sep1</tabstop>
+  <tabstop>loadLivresBtn</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>searchBar</tabstop>
+  <tabstop>critereRechEtudiant</tabstop>
+  <tabstop>checkBoxNiveau</tabstop>
+  <tabstop>comboBoxNiveau</tabstop>
+  <tabstop>checkBoxSection</tabstop>
+  <tabstop>comboBoxSection</tabstop>
+  <tabstop>saveBtn</tabstop>
+  <tabstop>loadBtn</tabstop>
+  <tabstop>critereRechEmp</tabstop>
+  <tabstop>clearBtn</tabstop>
+  <tabstop>ajouterLivreBtn</tabstop>
+  <tabstop>searchBar_3</tabstop>
+  <tabstop>loadBtn_3</tabstop>
+  <tabstop>saveBtn_3</tabstop>
+  <tabstop>delBtn</tabstop>
+  <tabstop>addBtn</tabstop>
+  <tabstop>table</tabstop>
+  <tabstop>sep2</tabstop>
+  <tabstop>clearBtn_3</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>suppLivreBtn</tabstop>
+  <tabstop>table_3</tabstop>
+  <tabstop>retourBtn</tabstop>
+  <tabstop>delBtn_3</tabstop>
+  <tabstop>addBtn_3</tabstop>
+ </tabstops>
  <resources>
   <include location="test.qrc"/>
  </resources>
