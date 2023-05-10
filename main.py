@@ -401,7 +401,12 @@ def loadTabEmprunts(windows):
         referenceIndex = empPanWin.reference.findText(emprunt.reference, QtCore.Qt.MatchFixedString)
         empPanWin.reference.setCurrentIndex(referenceIndex)
         empPanWin.reference.setDisabled(True)
+
+        current_dateEmprunt = date.today()
+        formatted_dateEmprunt = current_dateEmprunt.strftime("%d/%m/%Y")
+
         empPanWin.dateEmprunt.setDate(QtCore.QDate.fromString(emprunt.dateEmprunt, "d/M/yyyy"))
+        empPanWin.dateEmprunt.setMaximumDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy") if (emprunt.dateRetour != "--/--/--") else QtCore.QDate.fromString(formatted_dateEmprunt, "d/M/yyyy"))
         empPanWin.dateEmprunt.setDisabled(False)
         #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(emprunt.dateRetour, "d/M/yyyy"))
         #empPanWin.dateRetour.setDisabled(True)
@@ -419,6 +424,7 @@ def loadTabEmprunts(windows):
         empPanWin.nombreExemplaires.setValue(int(emprunt.nombreExemplaires))
         empPanWin.nombreExemplaires.setDisabled(emprunt.dateRetour != "--/--/--")
     
+    
     def resetEmpPan():
         empPanWin.nce.setCurrentIndex(-1)
         empPanWin.nce.setDisabled(False)
@@ -427,7 +433,7 @@ def loadTabEmprunts(windows):
         current_dateEmprunt = date.today()
         formatted_dateEmprunt = current_dateEmprunt.strftime("%d/%m/%Y")
         empPanWin.dateEmprunt.setDate(QtCore.QDate.fromString(formatted_dateEmprunt, "d/M/yyyy"))
-        empPanWin.dateEmprunt.setDisabled(False)
+        empPanWin.dateEmprunt.setDisabled(True)
         #dateRetour = current_dateEmprunt + timedelta(weeks=1)
         #formatted_dateRetour = dateRetour.strftime("%d/%m/%Y")
         #empPanWin.dateRetour.setDate(QtCore.QDate.fromString(formatted_dateRetour, "d/M/yyyy"))
