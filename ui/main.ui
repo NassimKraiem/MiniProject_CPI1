@@ -187,6 +187,33 @@ QScrollBar::add-line:vertical {
 	padding-left: 10px;
 }
 
+#searchSection_3 &gt; #critereRechEmp{
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: black;
+	border-top-right-radius: 13px;
+	border-bottom-right-radius: 13px;
+}
+#searchSection_3 &gt; #critereRechEmp::drop-down{
+	background-color: black;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+#searchSection_3 &gt; #critereRechEmp::down-arrow{
+	border-style: solid;
+	border-width: 4px;
+	border-top-color : white;
+	margin: 5px 2px;
+}
+#searchSection_3 &gt; #searchBar_3{
+	border-width: 1px 0px 1px 1px;
+	border-style: solid;
+	border-color: black;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	padding-left: 10px;
+}
+
 /*#checkBoxSection::indicator, #checkBoxNiveau::indicator{
 	border: 2px solid black;
 }*/
@@ -660,7 +687,7 @@ QScrollBar::add-line:vertical {
                   <x>0</x>
                   <y>0</y>
                   <width>477</width>
-                  <height>339</height>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout">
@@ -1049,6 +1076,9 @@ QScrollBar::add-line:vertical {
                <property name="editTriggers">
                 <set>QAbstractItemView::NoEditTriggers</set>
                </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
                <property name="rowCount">
                 <number>0</number>
                </property>
@@ -1165,9 +1195,6 @@ QScrollBar::add-line:vertical {
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
-                <widget class="QLineEdit" name="searchBar_3"/>
-               </item>
-               <item>
                 <widget class="QPushButton" name="saveBtn_3">
                  <property name="minimumSize">
                   <size>
@@ -1215,9 +1242,67 @@ QScrollBar::add-line:vertical {
                </item>
                <item>
                 <widget class="QPushButton" name="clearBtn_3">
+                 <property name="maximumSize">
+                  <size>
+                   <width>0</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>clear</string>
                  </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="searchSection_3" native="true">
+                 <layout class="QHBoxLayout" name="searchSectionLayout_4">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="searchBar_3">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>26</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="critereRechEmp">
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>26</height>
+                     </size>
+                    </property>
+                    <property name="currentIndex">
+                     <number>0</number>
+                    </property>
+                    <property name="insertPolicy">
+                     <enum>QComboBox::NoInsert</enum>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>NCE</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>
@@ -1320,13 +1405,13 @@ QScrollBar::add-line:vertical {
      <x>0</x>
      <y>0</y>
      <width>737</width>
-     <height>22</height>
+     <height>0</height>
     </rect>
    </property>
    <property name="maximumSize">
     <size>
-     <width>16777215</width>
-     <height>1000</height>
+     <width>16777214</width>
+     <height>0</height>
     </size>
    </property>
    <property name="styleSheet">

@@ -264,6 +264,7 @@ def loadTabEtudiants(windows):
         #print(QtCore.QDate.fromString(etudiant.dateN, "d/M/yyyy").getDate())
         etudPanWin.dateN.setDate(QtCore.QDate.fromString(etudiant.dateN, "d/M/yyyy"))
         etudPanWin.dateN.setDisabled(True)
+        etudPanWin.adresse.setText(etudiant.adresse)
         etudPanWin.mail.setText(etudiant.mail)
         etudPanWin.telephone.setValue(int(etudiant.telephone))
         sectionIndex = etudPanWin.section.findText(etudiant.section, QtCore.Qt.MatchFixedString)
@@ -281,6 +282,7 @@ def loadTabEtudiants(windows):
         #print(QtCore.QDate.fromString(etudiant.dateN, "d/M/yyyy").getDate())
         etudPanWin.dateN.setDate(QtCore.QDate.fromString("1/1/2000", "d/M/yyyy"))
         etudPanWin.dateN.setDisabled(False)
+        etudPanWin.adresse.setText("")
         etudPanWin.mail.setText("")
         etudPanWin.telephone.setValue(51907415)
         etudPanWin.section.setCurrentIndex(-1)
@@ -303,6 +305,7 @@ def loadTabEtudiants(windows):
     windows.table.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table.itemSelectionChanged.connect(lambda: selectCurrentRow(windows))
     windows.table.doubleClicked.connect(lambda: (openEditWindow(windows, etudPanWin), edit(shared_data.etudiants[windows.table.currentRow()])))
+    windows.table.sortByColumn(0, QtCore.Qt.AscendingOrder)
     windows.loadBtn.clicked.connect(charger)
     windows.saveBtn.clicked.connect(lambda: dbManager.enregistrer(shared_data.etudiants, "etudiants"))
 
@@ -455,6 +458,7 @@ def loadTabEmprunts(windows):
     windows.table_3.setSelectionMode(QtWidgets.QTableWidget.ContiguousSelection)
     windows.table_3.itemSelectionChanged.connect(lambda: selectCurrentRowEmp(windows))
     windows.table_3.doubleClicked.connect(lambda: (openEditWindow(windows, empPanWin), edit(shared_data.emprunts[windows.table_3.currentRow()])))
+    windows.table_3.sortByColumn(0, QtCore.Qt.AscendingOrder)
     windows.loadBtn_3.clicked.connect(charger)
     windows.saveBtn_3.clicked.connect(lambda: (print(*shared_data.emprunts), dbManager.enregistrer(shared_data.emprunts, "emprunts")))
 
