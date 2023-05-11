@@ -327,8 +327,6 @@ def loadTabEtudiants(windows):
     etudPanWin.section.currentIndexChanged.connect(handleSectionChange)
 
 
-
-
 def loadTabEmprunts(windows):
     global empPanWin
 
@@ -485,11 +483,6 @@ def loadTabEmprunts(windows):
         if(empPanWin.nce.currentText() in [empPanWin.nce.itemText(i) for i in range(empPanWin.nce.count())]):
             empPanWin.nce.setCurrentIndex(empPanWin.nce.currentIndex())
     #empPanWin.nce.currentTextChanged.connect(nceBox)
-
-
-
-
-
 
 def connectNavBar(windows):
     def customDel(delFunction, critere: list):
